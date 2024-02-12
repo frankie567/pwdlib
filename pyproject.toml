@@ -20,6 +20,9 @@ path = "pwdlib/__init__.py"
 
 [tool.hatch.envs.default]
 python = "3.8"
+features = [
+    "argon2",
+]
 dependencies = [
     "mypy",
     "ruff",
@@ -72,6 +75,12 @@ classifiers = [
 ]
 requires-python = ">=3.8"
 dependencies = [
+
+]
+
+[project.optional-dependencies]
+argon2 = [
+    "argon2-cffi ==23.1.0",
 ]
 
 [project.urls]
