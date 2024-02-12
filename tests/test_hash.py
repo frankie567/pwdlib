@@ -20,6 +20,12 @@ def password_hash() -> PasswordHash:
     return PasswordHash((Argon2Hasher(), BcryptHasher()))
 
 
+def test_recommended() -> None:
+    password_hash = PasswordHash.recommended()
+    assert len(password_hash.hashers) == 1
+    assert isinstance(password_hash.current_hasher, Argon2Hasher)
+
+
 def test_hash(password_hash: PasswordHash) -> None:
     hash = password_hash.hash("herminetincture")
     assert isinstance(hash, str)

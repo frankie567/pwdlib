@@ -21,6 +21,17 @@ class PasswordHash:
         self.hashers = hashers
         self.current_hasher = hashers[0]
 
+    @classmethod
+    def recommended(cls) -> "PasswordHash":
+        """
+        Returns a PasswordHash instance with recommended hashers.
+
+        Currently, the hasher is Argon2 with default parameters.
+        """
+        from .hashers.argon2 import Argon2Hasher
+
+        return cls((Argon2Hasher(),))
+
     def hash(
         self,
         password: typing.Union[str, bytes],
