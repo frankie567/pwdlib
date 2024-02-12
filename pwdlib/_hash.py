@@ -27,6 +27,12 @@ class PasswordHash:
         Returns a PasswordHash instance with recommended hashers.
 
         Currently, the hasher is Argon2 with default parameters.
+
+        Examples:
+            >>> password_hash = PasswordHash.recommended()
+            >>> hash = password_hash.hash("herminetincture")
+            >>> password_hash.verify(hash, "herminetincture")
+            True
         """
         from .hashers.argon2 import Argon2Hasher
 
@@ -47,6 +53,9 @@ class PasswordHash:
 
         Returns:
             The hashed password.
+
+        Examples:
+            >>> hash = password_hash.hash("herminetincture")
         """
         return self.current_hasher.hash(password, salt=salt)
 
@@ -65,6 +74,13 @@ class PasswordHash:
 
         Raises:
             exceptions.UnknownHashError: If the hash is not recognized by any of the hashers.
+
+        Examples:
+            >>> password_hash.verify(hash, "herminetincture")
+            True
+
+            >>> password_hash.verify(hash, "INVALID_PASSWORD")
+            False
         """
         for hasher in self.hashers:
             if hasher.identify(hash):
@@ -87,6 +103,9 @@ class PasswordHash:
 
         Raises:
             exceptions.UnknownHashError: If the hash is not recognized by any of the hashers.
+
+        Examples:
+            >>> valid, updated_hash = password_hash.verify_and_update(hash, "herminetincture")
         """
         for hasher in self.hashers:
             if hasher.identify(hash):
