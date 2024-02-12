@@ -36,6 +36,6 @@ class PasswordHash:
                 else:
                     updated_hash: typing.Union[str, None] = None
                     if hasher != self.current_hasher or hasher.check_needs_rehash(hash):
-                        updated_hash = hasher.hash(password)
+                        updated_hash = self.current_hasher.hash(password)
                     return True, updated_hash
         raise exceptions.UnknownHashError(hash)

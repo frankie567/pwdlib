@@ -22,6 +22,7 @@ path = "pwdlib/__init__.py"
 python = "3.8"
 features = [
     "argon2",
+    "bcrypt",
 ]
 dependencies = [
     "mypy",
@@ -81,6 +82,9 @@ dependencies = [
 [project.optional-dependencies]
 argon2 = [
     "argon2-cffi ==23.1.0",
+]
+bcrypt = [
+    "bcrypt ==4.1.2",
 ]
 
 [project.urls]

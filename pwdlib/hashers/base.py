@@ -1,8 +1,12 @@
 import typing
 
 
-def ensure_str_hash(hash: typing.Union[str, bytes]) -> str:
-    return hash.decode("ascii") if isinstance(hash, bytes) else typing.cast(str, hash)
+def ensure_str(v: typing.Union[str, bytes]) -> str:
+    return v.decode("utf-8") if isinstance(v, bytes) else typing.cast(str, v)
+
+
+def ensure_bytes(v: typing.Union[str, bytes]) -> bytes:
+    return v.encode("utf-8") if isinstance(v, str) else v
 
 
 class HasherProtocol(typing.Protocol):
@@ -27,4 +31,4 @@ class HasherProtocol(typing.Protocol):
         ...
 
 
-__all__ = ["HasherProtocol", "ensure_str_hash"]
+__all__ = ["HasherProtocol", "ensure_str"]

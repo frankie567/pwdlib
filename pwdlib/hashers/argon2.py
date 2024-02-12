@@ -8,7 +8,7 @@ except ImportError as e:
 
     raise HasherNotAvailable("argon2") from e
 
-from .base import HasherProtocol, ensure_str_hash
+from .base import HasherProtocol, ensure_str
 
 
 class Argon2Hasher(HasherProtocol):
@@ -17,7 +17,7 @@ class Argon2Hasher(HasherProtocol):
 
     @classmethod
     def identify(cls, hash: typing.Union[str, bytes]) -> bool:
-        return ensure_str_hash(hash).startswith("$argon2id$")
+        return ensure_str(hash).startswith("$argon2id$")
 
     def hash(
         self,
@@ -39,4 +39,4 @@ class Argon2Hasher(HasherProtocol):
             return False
 
     def check_needs_rehash(self, hash: typing.Union[str, bytes]) -> bool:
-        return self._hasher.check_needs_rehash(ensure_str_hash(hash))
+        return self._hasher.check_needs_rehash(ensure_str(hash))
