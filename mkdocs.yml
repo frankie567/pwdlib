@@ -62,3 +62,4 @@ nav:
     - About: index.md
     - Reference:
         - pwdlib: reference/pwdlib.md
+        - pwdlib.exceptions: reference/pwdlib.exceptions.md
