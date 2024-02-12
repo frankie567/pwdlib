@@ -26,6 +26,11 @@ class BcryptHasher(HasherProtocol):
     def __init__(
         self, rounds: int = 12, prefix: typing.Literal["2a", "2b"] = "2b"
     ) -> None:
+        """
+        Args:
+            rounds: The number of rounds to use for hashing.
+            prefix: The prefix to use for hashing.
+        """
         self.rounds = rounds
         self.prefix = prefix.encode("utf-8")
 

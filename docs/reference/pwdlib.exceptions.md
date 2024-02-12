@@ -1,4 +1,4 @@
-# Reference
+# Reference - Exceptions
 
 ::: pwdlib.exceptions
     options:
