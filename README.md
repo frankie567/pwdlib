@@ -16,6 +16,36 @@
 
 ---
 
+## Quickstart
+
+```sh
+pip install 'pwdlib[argon2]'
+```
+
+```py
+from pwdlib import PasswordHash
+
+password_hash = PasswordHash.recommended()
+hash = password_hash.hash("herminetincture")
+password_hash.verify(hash, "herminetincture")  # True
+```
+
+## Why `pwdlib`?
+
+For years, the de-facto standard to hash passwords was [`passlib`](https://foss.heptapod.net/python-libs/passlib). Unfortunately, it has not been very active recently and its [maintenance status is under question](https://foss.heptapod.net/python-libs/passlib/-/issues/187). Starting Python 3.13, `passlib` won't work anymore.
+
+That's why I decided to start `pwdlib`, a password hash helper for the modern Python era. However, it's **not designed to be a complete replacement** for `passlib`, which supports numerous [hashing algorithms and features](https://passlib.readthedocs.io/en/stable/lib/index.html).
+
+**✅ Goals**
+
+- [x] Provide an easy-to-use wrapper to hash and verify passwords
+- [x] Support modern and secure algorithms like Argon2 or Bcrypt
+
+**❌ Non-goals**
+
+- [ ] Support legacy hashing algorithms like MD5
+- [ ] Implement algorithms directly — we should only rely on existing and battle-tested implementations
+
 ## Development
 
 ### Setup environment
