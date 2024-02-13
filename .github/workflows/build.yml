@@ -36,12 +36,11 @@ jobs:
   release:
     runs-on: ubuntu-latest
     environment: release
-    permissions:
-      id-token: write
     needs: test
     if: startsWith(github.ref, 'refs/tags/')
     permissions:
         contents: write
+        id-token: write
 
     steps:
     - uses: actions/checkout@v4
