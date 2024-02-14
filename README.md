@@ -7,6 +7,16 @@
 [![build](https://github.com/frankie567/pwdlib/workflows/Build/badge.svg)](https://github.com/frankie567/pwdlib/actions)
 [![codecov](https://codecov.io/gh/frankie567/pwdlib/branch/master/graph/badge.svg)](https://codecov.io/gh/frankie567/pwdlib)
 [![PyPI version](https://badge.fury.io/py/pwdlib.svg)](https://badge.fury.io/py/pwdlib)
+[![Downloads](https://pepy.tech/badge/pwdlib)](https://pepy.tech/project/pwdlib)
+
+<p align="center">
+<a href="https://polar.sh/frankie567">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://polar.sh/embed/support-us.svg?org=frankie567&&text=Support+me&darkmode=1">
+  <img alt="Support me" src="https://polar.sh/embed/support-us.svg?org=frankie567&text=Support+me">
+</picture>
+</a>
+</p>
 
 ---
 
