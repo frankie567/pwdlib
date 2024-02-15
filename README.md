@@ -5,7 +5,7 @@
 </p>
 
 [![build](https://github.com/frankie567/pwdlib/workflows/Build/badge.svg)](https://github.com/frankie567/pwdlib/actions)
-[![codecov](https://codecov.io/gh/frankie567/pwdlib/branch/master/graph/badge.svg)](https://codecov.io/gh/frankie567/pwdlib)
+[![codecov](https://codecov.io/gh/frankie567/pwdlib/branch/main/graph/badge.svg)](https://codecov.io/gh/frankie567/pwdlib)
 [![PyPI version](https://badge.fury.io/py/pwdlib.svg)](https://badge.fury.io/py/pwdlib)
 [![Downloads](https://pepy.tech/badge/pwdlib)](https://pepy.tech/project/pwdlib)
 
