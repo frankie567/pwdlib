@@ -49,7 +49,7 @@ class BcryptHasher(HasherProtocol):
         return ensure_str(bcrypt.hashpw(ensure_bytes(password), salt))
 
     def verify(
-        self, hash: typing.Union[str, bytes], password: typing.Union[str, bytes]
+        self, password: typing.Union[str, bytes], hash: typing.Union[str, bytes]
     ) -> bool:
         return bcrypt.checkpw(ensure_bytes(password), ensure_bytes(hash))
 

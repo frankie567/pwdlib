@@ -47,7 +47,7 @@ def test_verify(
     result: bool,
     password_hash: PasswordHash,
 ) -> None:
-    assert password_hash.verify(hash, password) == result
+    assert password_hash.verify(password, hash) == result
 
 
 def test_verify_unknown_hash(password_hash: PasswordHash) -> None:
@@ -71,7 +71,7 @@ def test_verify_and_update(
     has_updated_hash: bool,
     password_hash: PasswordHash,
 ) -> None:
-    valid, updated_hash = password_hash.verify_and_update(hash, password)
+    valid, updated_hash = password_hash.verify_and_update(password, hash)
     assert valid == result
     assert updated_hash is not None if has_updated_hash else updated_hash is None
     if updated_hash is not None:
@@ -80,4 +80,4 @@ def test_verify_and_update(
 
 def test_verify_and_update_unknown_hash(password_hash: PasswordHash) -> None:
     with pytest.raises(exceptions.UnknownHashError):
-        password_hash.verify_and_update("INVALID_HASH", _PASSWORD)
+        password_hash.verify_and_update(_PASSWORD, "INVALID_HASH")

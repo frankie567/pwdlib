@@ -49,7 +49,7 @@ def test_verify(
     result: bool,
     bcrypt_hasher: BcryptHasher,
 ) -> None:
-    assert bcrypt_hasher.verify(hash, password) == result
+    assert bcrypt_hasher.verify(password, hash) == result
 
 
 def test_check_needs_rehash(bcrypt_hasher: BcryptHasher) -> None:

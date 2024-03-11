@@ -49,4 +49,4 @@ def test_verify(
     result: bool,
     argon2_hasher: Argon2Hasher,
 ) -> None:
-    assert argon2_hasher.verify(hash, password) == result
+    assert argon2_hasher.verify(password, hash) == result

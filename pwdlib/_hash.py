@@ -60,14 +60,14 @@ class PasswordHash:
         return self.current_hasher.hash(password, salt=salt)
 
     def verify(
-        self, hash: typing.Union[str, bytes], password: typing.Union[str, bytes]
+        self, password: typing.Union[str, bytes], hash: typing.Union[str, bytes]
     ) -> bool:
         """
         Verifies if a password matches a given hash.
 
         Args:
-            hash: The hash to be verified.
             password: The password to be checked.
+            hash: The hash to be verified.
 
         Returns:
             True if the password matches the hash, False otherwise.
@@ -76,26 +76,26 @@ class PasswordHash:
             exceptions.UnknownHashError: If the hash is not recognized by any of the hashers.
 
         Examples:
-            >>> password_hash.verify(hash, "herminetincture")
+            >>> password_hash.verify("herminetincture", hash)
             True
 
-            >>> password_hash.verify(hash, "INVALID_PASSWORD")
+            >>> password_hash.verify("INVALID_PASSWORD", hash)
             False
         """
         for hasher in self.hashers:
             if hasher.identify(hash):
-                return hasher.verify(hash, password)
+                return hasher.verify(password, hash)
         raise exceptions.UnknownHashError(hash)
 
     def verify_and_update(
-        self, hash: typing.Union[str, bytes], password: typing.Union[str, bytes]
+        self, password: typing.Union[str, bytes], hash: typing.Union[str, bytes]
     ) -> typing.Tuple[bool, typing.Union[str, None]]:
         """
         Verifies if a password matches a given hash and updates the hash if necessary.
 
         Args:
-            hash: The hash to be verified.
             password: The password to be checked.
+            hash: The hash to be verified.
 
         Returns:
             A tuple containing a boolean indicating if the password matches the hash,
@@ -105,11 +105,11 @@ class PasswordHash:
             exceptions.UnknownHashError: If the hash is not recognized by any of the hashers.
 
         Examples:
-            >>> valid, updated_hash = password_hash.verify_and_update(hash, "herminetincture")
+            >>> valid, updated_hash = password_hash.verify_and_update("herminetincture", hash)
         """
         for hasher in self.hashers:
             if hasher.identify(hash):
-                if not hasher.verify(hash, password):
+                if not hasher.verify(password, hash):
                     return False, None
                 else:
                     updated_hash: typing.Union[str, None] = None

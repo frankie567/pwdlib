@@ -80,7 +80,7 @@ The resulting string is a hash generated from the **current algorithm**, which y
 When you want to verify a password corresponds to a hash, use the [`verify`](./reference/pwdlib.md#pwdlib.PasswordHash.verify) method:
 
 ```py
-valid = password_hash.verify(hash, "herminetincture")
+valid = password_hash.verify("herminetincture", hash)
 ```
 
 Under the hood, it'll check against all the enabled algorithms. It means that if older users still have a hash with a legacy algorithm, we'll still be able to verify it.
@@ -97,7 +97,7 @@ This is the purpose of the [`verify_and_update`](./reference/pwdlib.md#pwdlib.Pa
 
 
 ```py
-valid, updated_hash = password_hash.verify_and_update(hash, "herminetincture")
+valid, updated_hash = password_hash.verify_and_update("herminetincture", hash)
 ```
 
 If the hash needs to be updated, `updated_hash` will be a string. Otherwise, it's `None`. Then, don't forget to update it in your database.

@@ -23,7 +23,9 @@ class HasherProtocol(typing.Protocol):
         ...
 
     def verify(
-        self, hash: typing.Union[str, bytes], password: typing.Union[str, bytes]
+        self,
+        password: typing.Union[str, bytes],
+        hash: typing.Union[str, bytes],
     ) -> bool:
         ...
 

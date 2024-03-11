@@ -37,7 +37,7 @@ from pwdlib import PasswordHash
 
 password_hash = PasswordHash.recommended()
 hash = password_hash.hash("herminetincture")
-password_hash.verify(hash, "herminetincture")  # True
+password_hash.verify("herminetincture", hash)  # True
 ```
 
 ## Why `pwdlib`?

@@ -53,7 +53,9 @@ class Argon2Hasher(HasherProtocol):
         return self._hasher.hash(password, salt=salt)
 
     def verify(
-        self, hash: typing.Union[str, bytes], password: typing.Union[str, bytes]
+        self,
+        password: typing.Union[str, bytes],
+        hash: typing.Union[str, bytes],
     ) -> bool:
         try:
             return self._hasher.verify(hash, password)
