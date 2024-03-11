@@ -38,12 +38,12 @@ test = "pytest"
 test-cov-xml = "pytest --cov-report=xml"
 lint = [
   "ruff format .",
-  "ruff --fix .",
+  "ruff check --fix .",
   "mypy pwdlib/",
 ]
 lint-check = [
   "ruff format --check .",
-  "ruff .",
+  "ruff check .",
   "mypy pwdlib/",
 ]
 docs-serve = "mkdocs serve"

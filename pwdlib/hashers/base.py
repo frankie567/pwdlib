@@ -11,26 +11,22 @@ def ensure_bytes(v: typing.Union[str, bytes], *, encoding: str = "utf-8") -> byt
 
 class HasherProtocol(typing.Protocol):
     @classmethod
-    def identify(cls, hash: typing.Union[str, bytes]) -> bool:
-        ...
+    def identify(cls, hash: typing.Union[str, bytes]) -> bool: ...
 
     def hash(
         self,
         password: typing.Union[str, bytes],
         *,
         salt: typing.Union[bytes, None] = None,
-    ) -> str:
-        ...
+    ) -> str: ...
 
     def verify(
         self,
         password: typing.Union[str, bytes],
         hash: typing.Union[str, bytes],
-    ) -> bool:
-        ...
+    ) -> bool: ...
 
-    def check_needs_rehash(self, hash: typing.Union[str, bytes]) -> bool:
-        ...
+    def check_needs_rehash(self, hash: typing.Union[str, bytes]) -> bool: ...
 
 
 __all__ = ["HasherProtocol", "ensure_str"]
