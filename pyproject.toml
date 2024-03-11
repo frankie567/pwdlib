@@ -19,7 +19,6 @@ commit_extra_args = ["-e"]
 path = "pwdlib/__init__.py"
 
 [tool.hatch.envs.default]
-python = "3.8"
 features = [
     "argon2",
     "bcrypt",
