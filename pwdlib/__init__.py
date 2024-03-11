@@ -1,6 +1,6 @@
 """Modern password hashing for Python"""
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 from ._hash import PasswordHash
 
