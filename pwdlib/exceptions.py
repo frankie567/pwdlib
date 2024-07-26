@@ -31,7 +31,7 @@ class HasherNotAvailable(PwdlibError):
         message = (
             f"The {hasher} hash algorithm is not available. "
             "Are you sure it's installed? "
-            f"Try to run `pip install pdwlib[{hasher}]`."
+            f"Try to run `pip install pwdlib[{hasher}]`."
         )
         super().__init__(message)
 
