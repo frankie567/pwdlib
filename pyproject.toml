@@ -19,6 +19,7 @@ commit_extra_args = ["-e"]
 path = "pwdlib/__init__.py"
 
 [tool.hatch.envs.default]
+installer = "uv"
 features = [
     "argon2",
     "bcrypt",
