@@ -105,7 +105,7 @@ It's worth to note that the hash is also upgraded if the **settings of the algor
 
 ## TOTP
 
-To provide a second factor of authentication, `pwdlib` exposes the [`TOTP`](./reference/pwd.totp.md#pwdlib.totp.TOTP) class.
+To provide a second factor of authentication, `pwdlib` exposes the [`TOTP`](./reference/pwdlib.totp.md#pwdlib.totp.TOTP) class.
 
 ```py
 from pwdlib import totp
