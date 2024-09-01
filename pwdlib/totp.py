@@ -124,7 +124,7 @@ class TOTP:
             window: Number of windows back in time to use when checking checking the OTP.
             now: A Unix timestamp. Defaults to the current time.
 
-        Return:
+        Returns:
             True if the OTP matched, False otherwise.
         """
         if now is None:
