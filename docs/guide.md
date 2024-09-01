@@ -95,7 +95,6 @@ As we said, [`verify`](./reference/pwdlib.md#pwdlib.PasswordHash.verify) checks 
 
 This is the purpose of the [`verify_and_update`](./reference/pwdlib.md#pwdlib.PasswordHash.verify_and_update) method: it verifies the password against a hash and, if it's valid and using an outdated algorithm, will hash it again using the current algorithm.
 
-
 ```py
 valid, updated_hash = password_hash.verify_and_update("herminetincture", hash)
 ```
@@ -103,3 +102,49 @@ valid, updated_hash = password_hash.verify_and_update("herminetincture", hash)
 If the hash needs to be updated, `updated_hash` will be a string. Otherwise, it's `None`. Then, don't forget to update it in your database.
 
 It's worth to note that the hash is also upgraded if the **settings of the algorithm** has been changed, like the time or memory cost.
+
+## TOTP
+
+To provide a second factor of authentication, `pwdlib` exposes the [`TOTP`](./reference/pwd.totp.md#pwdlib.totp.TOTP) class.
+
+```py
+from pwdlib import totp
+
+# Instantiate a TOTP object with a reasonable set of defaults
+t = totp.TOTP()
+
+# Generate a token
+print(t.generate())
+```
+
+To allow the object to be stored in a user's profile, you can use the `to_dict` method to you can serialise it as JSON or another format, and subsequently recreate the object using the `from_dict` class method.
+
+```py
+import json
+
+# Dump it as JSON
+t1 = totp.TOTP()
+as_json = json.dumps(t1.to_dict())
+
+# Take some previously serialised JSON and recreate the object.
+t2 = totp.TOTP.from_dict(json.loads(as_json))
+```
+
+It can also be converted into an [OTP key URI](https://github.com/google/google-authenticator/wiki/Key-Uri-Format), which can be presented to the user so they can add it to their OTP generator.
+
+```py
+print(t1.to_url("jane.doe@example.com", issuer="Yoyodyne"))
+```
+
+Finally, to check a code, pass it to `generate` method to check a code provided by the user.
+
+```py
+while True:
+    otp = input("Enter your TOTP: ")
+    if t1.check(otp):
+        break
+    print("Invalid! Try again.")
+print("Valid")
+```
+
+By default it uses the current window and the previous one. You can use the `window` named argument to change this from the default.
