@@ -53,3 +53,16 @@ class UnknownHashError(PwdlibError):
             "Make sure it's valid and that its corresponding hasher is enabled."
         )
         super().__init__(message)
+
+
+class UnknownHashAlgorithmError(PwdlibError):
+    """Raised if the named hash algorithm was not recognised."""
+
+    def __init__(self, alg: str):
+        """
+        Args:
+            alg: Hash algorithm name given
+        """
+        self.alg = alg
+        message = f"'{alg}' is not a supported TOTP hash algorithm"
+        super().__init__(message)

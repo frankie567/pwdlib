@@ -69,3 +69,4 @@ nav:
         - pwdlib: reference/pwdlib.md
         - pwdlib.exceptions: reference/pwdlib.exceptions.md
         - pwdlib.hashers: reference/pwdlib.hashers.md
+        - pwdlib.totp: reference/pwdlib.totp.md
