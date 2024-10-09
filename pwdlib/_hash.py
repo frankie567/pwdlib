@@ -89,7 +89,7 @@ class PasswordHash:
 
     def verify_and_update(
         self, password: typing.Union[str, bytes], hash: typing.Union[str, bytes]
-    ) -> typing.Tuple[bool, typing.Union[str, None]]:
+    ) -> tuple[bool, typing.Union[str, None]]:
         """
         Verifies if a password matches a given hash and updates the hash if necessary.
 
