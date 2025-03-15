@@ -9,15 +9,6 @@
 [![PyPI version](https://badge.fury.io/py/pwdlib.svg)](https://badge.fury.io/py/pwdlib)
 [![Downloads](https://pepy.tech/badge/pwdlib)](https://pepy.tech/project/pwdlib)
 
-<p align="center">
-<a href="https://polar.sh/frankie567">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://polar.sh/embed/subscribe.svg?org=frankie567&darkmode=1">
-  <img alt="Subscribe" src="https://polar.sh/embed/subscribe.svg?org=frankie567">
-</picture>
-</a>
-</p>
-
 ---
 
 **Documentation**: <a href="https://frankie567.github.io/pwdlib/" target="_blank">https://frankie567.github.io/pwdlib/</a>
