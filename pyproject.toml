@@ -81,7 +81,7 @@ dependencies = [
 
 [project.optional-dependencies]
 argon2 = [
-    "argon2-cffi >=23.1.0,<24",
+    "argon2-cffi >=23.1.0,<26",
 ]
 bcrypt = [
     "bcrypt >=4.1.2,<5",
