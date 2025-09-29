@@ -84,7 +84,7 @@ argon2 = [
     "argon2-cffi >=23.1.0,<26",
 ]
 bcrypt = [
-    "bcrypt >=4.1.2,<5",
+    "bcrypt >=4.1.2,<6",
 ]
 
 [project.urls]
