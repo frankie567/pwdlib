@@ -1,5 +1,3 @@
-import typing
-
 import pytest
 
 from pwdlib.hashers.bcrypt import BcryptHasher
@@ -25,7 +23,7 @@ def bcrypt_hasher() -> BcryptHasher:
         (b"INVALID_HASH", False),
     ],
 )
-def test_identify(hash: typing.Union[str, bytes], result: bool) -> None:
+def test_identify(hash: str | bytes, result: bool) -> None:
     assert BcryptHasher.identify(hash) == result
 
 
@@ -44,7 +42,7 @@ def test_hash(bcrypt_hasher: BcryptHasher) -> None:
     ],
 )
 def test_verify(
-    hash: typing.Union[str, bytes],
+    hash: str | bytes,
     password: str,
     result: bool,
     bcrypt_hasher: BcryptHasher,

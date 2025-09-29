@@ -1,5 +1,3 @@
-import typing
-
 try:
     import argon2.exceptions
     from argon2 import PasswordHasher
@@ -41,22 +39,13 @@ class Argon2Hasher(HasherProtocol):
         )
 
     @classmethod
-    def identify(cls, hash: typing.Union[str, bytes]) -> bool:
+    def identify(cls, hash: str | bytes) -> bool:
         return ensure_str(hash).startswith("$argon2id$")
 
-    def hash(
-        self,
-        password: typing.Union[str, bytes],
-        *,
-        salt: typing.Union[bytes, None] = None,
-    ) -> str:
+    def hash(self, password: str | bytes, *, salt: bytes | None = None) -> str:
         return self._hasher.hash(password, salt=salt)
 
-    def verify(
-        self,
-        password: typing.Union[str, bytes],
-        hash: typing.Union[str, bytes],
-    ) -> bool:
+    def verify(self, password: str | bytes, hash: str | bytes) -> bool:
         try:
             return self._hasher.verify(hash, password)
         except (
@@ -65,5 +54,5 @@ class Argon2Hasher(HasherProtocol):
         ):
             return False
 
-    def check_needs_rehash(self, hash: typing.Union[str, bytes]) -> bool:
+    def check_needs_rehash(self, hash: str | bytes) -> bool:
         return self._hasher.check_needs_rehash(ensure_str(hash))

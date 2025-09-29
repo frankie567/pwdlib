@@ -1,6 +1,3 @@
-import typing
-
-
 class PwdlibError(Exception):
     """
     Base pwdlib error.
@@ -41,7 +38,7 @@ class UnknownHashError(PwdlibError):
     Error raised when the hash can't be identified from the list of provided hashers.
     """
 
-    def __init__(self, hash: typing.Union[str, bytes]) -> None:
+    def __init__(self, hash: str | bytes) -> None:
         """
         Args:
             hash:

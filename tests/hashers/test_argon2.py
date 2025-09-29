@@ -1,5 +1,3 @@
-import typing
-
 import pytest
 
 from pwdlib.hashers.argon2 import Argon2Hasher
@@ -25,7 +23,7 @@ def argon2_hasher() -> Argon2Hasher:
         (b"INVALID_HASH", False),
     ],
 )
-def test_identify(hash: typing.Union[str, bytes], result: bool) -> None:
+def test_identify(hash: str | bytes, result: bool) -> None:
     assert Argon2Hasher.identify(hash) == result
 
 
@@ -44,7 +42,7 @@ def test_hash(argon2_hasher: Argon2Hasher) -> None:
     ],
 )
 def test_verify(
-    hash: typing.Union[str, bytes],
+    hash: str | bytes,
     password: str,
     result: bool,
     argon2_hasher: Argon2Hasher,

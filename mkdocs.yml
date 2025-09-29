@@ -12,8 +12,8 @@ theme:
         # Palette toggle for automatic mode
         - media: "(prefers-color-scheme)"
           toggle:
-            icon: material/brightness-auto
-            name: Switch to light mode
+              icon: material/brightness-auto
+              name: Switch to light mode
 
         # Palette toggle for light mode
         - media: "(prefers-color-scheme: light)"
@@ -21,8 +21,8 @@ theme:
           primary: amber
           accent: amber
           toggle:
-            icon: material/brightness-7
-            name: Switch to dark mode
+              icon: material/brightness-7
+              name: Switch to dark mode
 
         # Palette toggle for dark mode
         - media: "(prefers-color-scheme: dark)"
@@ -30,18 +30,18 @@ theme:
           primary: amber
           accent: amber
           toggle:
-            icon: material/brightness-4
-            name: Switch to light mode
+              icon: material/brightness-4
+              name: Switch to light mode
     features:
-      - content.code.copy
+        - content.code.copy
 
 markdown_extensions:
     - toc:
-        permalink: true
+          permalink: true
     - pymdownx.highlight:
-        anchor_linenums: true
+          anchor_linenums: true
     - pymdownx.tasklist:
-        custom_checkbox: true
+          custom_checkbox: true
     - pymdownx.inlinehilite
     - pymdownx.snippets
     - pymdownx.superfences
@@ -51,12 +51,12 @@ plugins:
     - search
     - autorefs
     - mkdocstrings:
-        handlers:
-            python:
-                import:
-                    - https://docs.python.org/3.9/objects.inv
-                options:
-                    docstring_style: google
+          handlers:
+              python:
+                  import:
+                      - https://docs.python.org/3.10/objects.inv
+                  options:
+                      docstring_style: google
 
 watch:
     - docs
@@ -66,6 +66,6 @@ nav:
     - About: index.md
     - Guide: guide.md
     - Reference:
-        - pwdlib: reference/pwdlib.md
-        - pwdlib.exceptions: reference/pwdlib.exceptions.md
-        - pwdlib.hashers: reference/pwdlib.hashers.md
+          - pwdlib: reference/pwdlib.md
+          - pwdlib.exceptions: reference/pwdlib.exceptions.md
+          - pwdlib.hashers: reference/pwdlib.hashers.md

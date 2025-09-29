@@ -1,5 +1,3 @@
-import typing
-
 import pytest
 
 from pwdlib import PasswordHash, exceptions
@@ -42,7 +40,7 @@ def test_hash(password_hash: PasswordHash) -> None:
     ],
 )
 def test_verify(
-    hash: typing.Union[str, bytes],
+    hash: str | bytes,
     password: str,
     result: bool,
     password_hash: PasswordHash,
@@ -65,7 +63,7 @@ def test_verify_unknown_hash(password_hash: PasswordHash) -> None:
     ],
 )
 def test_verify_and_update(
-    hash: typing.Union[str, bytes],
+    hash: str | bytes,
     password: str,
     result: bool,
     has_updated_hash: bool,

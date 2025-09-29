@@ -1,4 +1,4 @@
-import typing
+import collections.abc
 
 from . import exceptions
 from .hashers import HasherProtocol
@@ -9,7 +9,7 @@ class PasswordHash:
     Represents a password hashing utility.
     """
 
-    def __init__(self, hashers: typing.Sequence[HasherProtocol]) -> None:
+    def __init__(self, hashers: collections.abc.Sequence[HasherProtocol]) -> None:
         """
         Args:
             hashers: A sequence of hashers to be used for password hashing.
@@ -38,12 +38,7 @@ class PasswordHash:
 
         return cls((Argon2Hasher(),))
 
-    def hash(
-        self,
-        password: typing.Union[str, bytes],
-        *,
-        salt: typing.Union[bytes, None] = None,
-    ) -> str:
+    def hash(self, password: str | bytes, *, salt: bytes | None = None) -> str:
         """
         Hashes a password using the current hasher.
 
@@ -59,9 +54,7 @@ class PasswordHash:
         """
         return self.current_hasher.hash(password, salt=salt)
 
-    def verify(
-        self, password: typing.Union[str, bytes], hash: typing.Union[str, bytes]
-    ) -> bool:
+    def verify(self, password: str | bytes, hash: str | bytes) -> bool:
         """
         Verifies if a password matches a given hash.
 
@@ -88,8 +81,8 @@ class PasswordHash:
         raise exceptions.UnknownHashError(hash)
 
     def verify_and_update(
-        self, password: typing.Union[str, bytes], hash: typing.Union[str, bytes]
-    ) -> tuple[bool, typing.Union[str, None]]:
+        self, password: str | bytes, hash: str | bytes
+    ) -> tuple[bool, str | None]:
         """
         Verifies if a password matches a given hash and updates the hash if necessary.
 
@@ -112,7 +105,7 @@ class PasswordHash:
                 if not hasher.verify(password, hash):
                     return False, None
                 else:
-                    updated_hash: typing.Union[str, None] = None
+                    updated_hash: str | None = None
                     if hasher != self.current_hasher or hasher.check_needs_rehash(hash):
                         updated_hash = self.current_hasher.hash(password)
                     return True, updated_hash
