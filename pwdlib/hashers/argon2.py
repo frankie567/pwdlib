@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 try:
     import argon2.exceptions
     from argon2 import PasswordHasher

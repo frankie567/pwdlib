@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pytest
 
 from pwdlib.hashers.argon2 import Argon2Hasher

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import collections.abc
 
 from . import exceptions
@@ -22,7 +24,7 @@ class PasswordHash:
         self.current_hasher = hashers[0]
 
     @classmethod
-    def recommended(cls) -> "PasswordHash":
+    def recommended(cls) -> PasswordHash:
         """
         Returns a PasswordHash instance with recommended hashers.
 
