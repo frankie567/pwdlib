@@ -1,7 +1,8 @@
-import collections.abc
+from collections.abc import Sequence
+from typing import Self
 
-from . import exceptions
-from .hashers import HasherProtocol
+from pwdlib.exceptions import UnknownHashError
+from pwdlib.hashers import HasherProtocol
 
 
 class PasswordHash:
@@ -9,34 +10,43 @@ class PasswordHash:
     Represents a password hashing utility.
     """
 
-    def __init__(self, hashers: collections.abc.Sequence[HasherProtocol]) -> None:
+    def __init__(
+        self,
+        hashers: Sequence[HasherProtocol] | None = None,
+    ) -> None:
         """
         Args:
-            hashers: A sequence of hashers to be used for password hashing.
+            hashers (`Sequence[HasherProtocol]`, optional): A sequence of hashers to be
+                used for password hashing. If not specified, defaults to using the
+                `Argon2` hasher with the default parameters.
 
         Raises:
-            AssertionError: If no hashers are specified.
+            HasherNotAvailable: If no hashers were passed, and the `argon2-cffi` package
+                could not be imported when attempting to initialize the `Argon2Hasher`
+                default hasher.
         """
-        assert len(hashers) > 0, "You must specify at least one hasher."
-        self.hashers = hashers
-        self.current_hasher = hashers[0]
+        if hashers is None:
+            from .hashers.argon2 import Argon2Hasher
+
+            hashers = (Argon2Hasher(),)
+        self.hashers: Sequence[HasherProtocol] = hashers
+        self.current_hasher = self.hashers[0]
 
     @classmethod
-    def recommended(cls) -> "PasswordHash":
+    def recommended(cls) -> Self:
         """
         Returns a PasswordHash instance with recommended hashers.
 
         Currently, the hasher is Argon2 with default parameters.
 
         Examples:
+            >>> from pwdlib import PasswordHash
             >>> password_hash = PasswordHash.recommended()
             >>> hash = password_hash.hash("herminetincture")
             >>> password_hash.verify(hash, "herminetincture")
             True
         """
-        from .hashers.argon2 import Argon2Hasher
-
-        return cls((Argon2Hasher(),))
+        return cls()
 
     def hash(self, password: str | bytes, *, salt: bytes | None = None) -> str:
         """
@@ -66,7 +76,7 @@ class PasswordHash:
             True if the password matches the hash, False otherwise.
 
         Raises:
-            exceptions.UnknownHashError: If the hash is not recognized by any of the hashers.
+            UnknownHashError: If the hash is not recognized by any of the hashers.
 
         Examples:
             >>> password_hash.verify("herminetincture", hash)
@@ -78,7 +88,7 @@ class PasswordHash:
         for hasher in self.hashers:
             if hasher.identify(hash):
                 return hasher.verify(password, hash)
-        raise exceptions.UnknownHashError(hash)
+        raise UnknownHashError(hash)
 
     def verify_and_update(
         self, password: str | bytes, hash: str | bytes
@@ -95,7 +105,7 @@ class PasswordHash:
                 and an updated hash if the current hasher or the hash itself needs to be updated.
 
         Raises:
-            exceptions.UnknownHashError: If the hash is not recognized by any of the hashers.
+            UnknownHashError: If the hash is not recognized by any of the hashers.
 
         Examples:
             >>> valid, updated_hash = password_hash.verify_and_update("herminetincture", hash)
@@ -109,4 +119,4 @@ class PasswordHash:
                     if hasher != self.current_hasher or hasher.check_needs_rehash(hash):
                         updated_hash = self.current_hasher.hash(password)
                     return True, updated_hash
-        raise exceptions.UnknownHashError(hash)
+        raise UnknownHashError(hash)
