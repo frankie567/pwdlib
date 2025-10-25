@@ -96,68 +96,14 @@ def test_verify(
         pytest.param({}, id="dict"),
     ],
 )
-def test_identify_invalid_type(invalid_value: object) -> None:
+def test_invalid_type(invalid_value: object, argon2_hasher: Argon2Hasher) -> None:
     with pytest.raises(TypeError, match="hash must be str or bytes"):
         Argon2Hasher.identify(invalid_value)  # type: ignore[arg-type]
-
-
-@pytest.mark.parametrize(
-    "invalid_value",
-    [
-        pytest.param(123, id="int"),
-        pytest.param(None, id="None"),
-        pytest.param([], id="list"),
-        pytest.param({}, id="dict"),
-    ],
-)
-def test_hash_invalid_type(invalid_value: object, argon2_hasher: Argon2Hasher) -> None:
     with pytest.raises(TypeError, match="password must be str or bytes"):
         argon2_hasher.hash(invalid_value)  # type: ignore[arg-type]
-
-
-@pytest.mark.parametrize(
-    "invalid_value",
-    [
-        pytest.param(123, id="int"),
-        pytest.param(None, id="None"),
-        pytest.param([], id="list"),
-        pytest.param({}, id="dict"),
-    ],
-)
-def test_verify_invalid_password_type(
-    invalid_value: object, argon2_hasher: Argon2Hasher
-) -> None:
     with pytest.raises(TypeError, match="password must be str or bytes"):
         argon2_hasher.verify(invalid_value, _HASH_STR)  # type: ignore[arg-type]
-
-
-@pytest.mark.parametrize(
-    "invalid_value",
-    [
-        pytest.param(123, id="int"),
-        pytest.param(None, id="None"),
-        pytest.param([], id="list"),
-        pytest.param({}, id="dict"),
-    ],
-)
-def test_verify_invalid_hash_type(
-    invalid_value: object, argon2_hasher: Argon2Hasher
-) -> None:
     with pytest.raises(TypeError, match="hash must be str or bytes"):
         argon2_hasher.verify(_PASSWORD, invalid_value)  # type: ignore[arg-type]
-
-
-@pytest.mark.parametrize(
-    "invalid_value",
-    [
-        pytest.param(123, id="int"),
-        pytest.param(None, id="None"),
-        pytest.param([], id="list"),
-        pytest.param({}, id="dict"),
-    ],
-)
-def test_check_needs_rehash_invalid_type(
-    invalid_value: object, argon2_hasher: Argon2Hasher
-) -> None:
     with pytest.raises(TypeError, match="hash must be str or bytes"):
         argon2_hasher.check_needs_rehash(invalid_value)  # type: ignore[arg-type]

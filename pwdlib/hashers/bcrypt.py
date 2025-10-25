@@ -8,7 +8,7 @@ except ImportError as e:  # pragma: no cover
 
     raise HasherNotAvailable("bcrypt") from e
 
-from .base import HasherProtocol, _validate_str_or_bytes, ensure_bytes, ensure_str
+from .base import HasherProtocol, ensure_bytes, ensure_str, validate_str_or_bytes
 
 _IDENTIFY_REGEX = (
     r"^\$(?P<prefix>2[abxy])\$(?P<rounds>\d{2})"
@@ -34,22 +34,22 @@ class BcryptHasher(HasherProtocol):
 
     @classmethod
     def identify(cls, hash: str | bytes) -> bool:
-        _validate_str_or_bytes(hash, "hash")
+        validate_str_or_bytes(hash, "hash")
         return _match_regex_hash(hash) is not None
 
     def hash(self, password: str | bytes, *, salt: bytes | None = None) -> str:
-        _validate_str_or_bytes(password, "password")
+        validate_str_or_bytes(password, "password")
         if salt is None:
             salt = bcrypt.gensalt(self.rounds, self.prefix)
         return ensure_str(bcrypt.hashpw(ensure_bytes(password), salt))
 
     def verify(self, password: str | bytes, hash: str | bytes) -> bool:
-        _validate_str_or_bytes(password, "password")
-        _validate_str_or_bytes(hash, "hash")
+        validate_str_or_bytes(password, "password")
+        validate_str_or_bytes(hash, "hash")
         return bcrypt.checkpw(ensure_bytes(password), ensure_bytes(hash))
 
     def check_needs_rehash(self, hash: str | bytes) -> bool:
-        _validate_str_or_bytes(hash, "hash")
+        validate_str_or_bytes(hash, "hash")
         _hash_match = _match_regex_hash(hash)
         if _hash_match is None:
             return True

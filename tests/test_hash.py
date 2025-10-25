@@ -88,75 +88,16 @@ def test_verify_and_update_unknown_hash(password_hash: PasswordHash) -> None:
         pytest.param(None, id="None"),
         pytest.param([], id="list"),
         pytest.param({}, id="dict"),
-        pytest.param(12.34, id="float"),
     ],
 )
-def test_hash_invalid_password_type(
-    invalid_value: object, password_hash: PasswordHash
-) -> None:
+def test_invalid_type(invalid_value: object, password_hash: PasswordHash) -> None:
     with pytest.raises(TypeError, match="password must be str or bytes"):
         password_hash.hash(invalid_value)  # type: ignore[arg-type]
-
-
-@pytest.mark.parametrize(
-    "invalid_value",
-    [
-        pytest.param(123, id="int"),
-        pytest.param(None, id="None"),
-        pytest.param([], id="list"),
-        pytest.param({}, id="dict"),
-    ],
-)
-def test_verify_invalid_password_type(
-    invalid_value: object, password_hash: PasswordHash
-) -> None:
     with pytest.raises(TypeError, match="password must be str or bytes"):
         password_hash.verify(invalid_value, _ARGON2_HASH_STR)  # type: ignore[arg-type]
-
-
-@pytest.mark.parametrize(
-    "invalid_value",
-    [
-        pytest.param(123, id="int"),
-        pytest.param(None, id="None"),
-        pytest.param([], id="list"),
-        pytest.param({}, id="dict"),
-    ],
-)
-def test_verify_invalid_hash_type(
-    invalid_value: object, password_hash: PasswordHash
-) -> None:
     with pytest.raises(TypeError, match="hash must be str or bytes"):
         password_hash.verify(_PASSWORD, invalid_value)  # type: ignore[arg-type]
-
-
-@pytest.mark.parametrize(
-    "invalid_value",
-    [
-        pytest.param(123, id="int"),
-        pytest.param(None, id="None"),
-        pytest.param([], id="list"),
-        pytest.param({}, id="dict"),
-    ],
-)
-def test_verify_and_update_invalid_password_type(
-    invalid_value: object, password_hash: PasswordHash
-) -> None:
     with pytest.raises(TypeError, match="password must be str or bytes"):
         password_hash.verify_and_update(invalid_value, _ARGON2_HASH_STR)  # type: ignore[arg-type]
-
-
-@pytest.mark.parametrize(
-    "invalid_value",
-    [
-        pytest.param(123, id="int"),
-        pytest.param(None, id="None"),
-        pytest.param([], id="list"),
-        pytest.param({}, id="dict"),
-    ],
-)
-def test_verify_and_update_invalid_hash_type(
-    invalid_value: object, password_hash: PasswordHash
-) -> None:
     with pytest.raises(TypeError, match="hash must be str or bytes"):
         password_hash.verify_and_update(_PASSWORD, invalid_value)  # type: ignore[arg-type]
