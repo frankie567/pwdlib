@@ -1,7 +1,7 @@
 import typing
 
 
-def _validate_str_or_bytes(value: typing.Any, param_name: str) -> None:
+def validate_str_or_bytes(value: typing.Any, param_name: str) -> None:
     """
     Validate that a value is a string or bytes.
 
@@ -13,9 +13,7 @@ def _validate_str_or_bytes(value: typing.Any, param_name: str) -> None:
         TypeError: If the value is not a string or bytes.
     """
     if not isinstance(value, (str, bytes)):
-        raise TypeError(  # noqa: TRY003
-            f"{param_name} must be str or bytes, not {type(value).__name__}"
-        )
+        raise TypeError(f"{param_name} must be str or bytes")  # noqa: TRY003
 
 
 def ensure_str(v: str | bytes, *, encoding: str = "utf-8") -> str:
@@ -37,4 +35,4 @@ class HasherProtocol(typing.Protocol):
     def check_needs_rehash(self, hash: str | bytes) -> bool: ...
 
 
-__all__ = ["HasherProtocol", "ensure_str", "_validate_str_or_bytes"]
+__all__ = ["HasherProtocol", "ensure_str", "validate_str_or_bytes"]

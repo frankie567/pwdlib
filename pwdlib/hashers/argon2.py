@@ -8,7 +8,7 @@ except ImportError as e:  # pragma: no cover
 
     raise HasherNotAvailable("argon2") from e
 
-from .base import HasherProtocol, _validate_str_or_bytes, ensure_str
+from .base import HasherProtocol, ensure_str, validate_str_or_bytes
 
 # Pattern for identifying and validating an Argon2 encoded hash, covering all currently
 # supported type variants (i.e., `id`, `i`, `d`). Pattern uses deterministic matching,
@@ -52,7 +52,7 @@ class Argon2Hasher(HasherProtocol):
 
     @classmethod
     def identify(cls, hash: str | bytes) -> bool:
-        _validate_str_or_bytes(hash, "hash")
+        validate_str_or_bytes(hash, "hash")
         try:
             hash_str = ensure_str(hash)
         except UnicodeDecodeError:
@@ -64,12 +64,12 @@ class Argon2Hasher(HasherProtocol):
         return variant in {"argon2id", "argon2i", "argon2d"}
 
     def hash(self, password: str | bytes, *, salt: bytes | None = None) -> str:
-        _validate_str_or_bytes(password, "password")
+        validate_str_or_bytes(password, "password")
         return self._hasher.hash(password, salt=salt)
 
     def verify(self, password: str | bytes, hash: str | bytes) -> bool:
-        _validate_str_or_bytes(password, "password")
-        _validate_str_or_bytes(hash, "hash")
+        validate_str_or_bytes(password, "password")
+        validate_str_or_bytes(hash, "hash")
         try:
             return self._hasher.verify(hash, password)
         except (
@@ -79,5 +79,5 @@ class Argon2Hasher(HasherProtocol):
             return False
 
     def check_needs_rehash(self, hash: str | bytes) -> bool:
-        _validate_str_or_bytes(hash, "hash")
+        validate_str_or_bytes(hash, "hash")
         return self._hasher.check_needs_rehash(ensure_str(hash))

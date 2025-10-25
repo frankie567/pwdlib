@@ -2,7 +2,7 @@ import collections.abc
 
 from . import exceptions
 from .hashers import HasherProtocol
-from .hashers.base import _validate_str_or_bytes
+from .hashers.base import validate_str_or_bytes
 
 
 class PasswordHash:
@@ -53,7 +53,7 @@ class PasswordHash:
         Examples:
             >>> hash = password_hash.hash("herminetincture")
         """
-        _validate_str_or_bytes(password, "password")
+        validate_str_or_bytes(password, "password")
         return self.current_hasher.hash(password, salt=salt)
 
     def verify(self, password: str | bytes, hash: str | bytes) -> bool:
@@ -77,8 +77,8 @@ class PasswordHash:
             >>> password_hash.verify("INVALID_PASSWORD", hash)
             False
         """
-        _validate_str_or_bytes(password, "password")
-        _validate_str_or_bytes(hash, "hash")
+        validate_str_or_bytes(password, "password")
+        validate_str_or_bytes(hash, "hash")
         for hasher in self.hashers:
             if hasher.identify(hash):
                 return hasher.verify(password, hash)
@@ -104,8 +104,8 @@ class PasswordHash:
         Examples:
             >>> valid, updated_hash = password_hash.verify_and_update("herminetincture", hash)
         """
-        _validate_str_or_bytes(password, "password")
-        _validate_str_or_bytes(hash, "hash")
+        validate_str_or_bytes(password, "password")
+        validate_str_or_bytes(hash, "hash")
         for hasher in self.hashers:
             if hasher.identify(hash):
                 if not hasher.verify(password, hash):
