@@ -3,7 +3,7 @@ import typing
 
 try:
     import bcrypt
-except ImportError as e:
+except ImportError as e:  # pragma: no cover
     from ..exceptions import HasherNotAvailable
 
     raise HasherNotAvailable("bcrypt") from e

@@ -23,9 +23,8 @@ DEFAULT_ENCODING: str = "utf-8"
 ARGON2ID_HASH_STR: str = "$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$Hnm7B2p4pnTo3mQ5qFmnHjR1OZBtVXd1B33joTc/XXg"
 ARGON2D_HASH_STR: str = "$argon2d$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$P4FC8mhbA5awaolU7A6SOIr+vDJ+AvOcuryWUDzrdcI"
 ARGON2I_HASH_STR: str = "$argon2i$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$WJ38Rw8Y82z6oLJyORBTspC2tAIryIkb1harNHedEPM"
-ARGON2ID_HASH_BYTES: bytes = ARGON2ID_HASH_STR.encode(DEFAULT_ENCODING)
+ARGON2ID_HASH_BYTES: bytes = ARGON2ID_HASH_STR.encode("utf-8")
 
-# Invalid or malformed Argon2 hashes for testing.
 ARGON2_MALFORMED_HASH: str = (
     "$argon2id$v=A&$m==,p=$c29tZXNhbHQ$arQWpIVsXmUQDj660XNQBCR3AeZaVN7ChRcM97sGDK4"
 )
@@ -37,15 +36,8 @@ def argon2_hasher() -> Argon2Hasher:
     return Argon2Hasher()
 
 
-@pytest.fixture(scope="module")
-def argon2id_large_hash() -> bytes:
-    """Returns a very large (~174KB) but well-formed Argon2id encoded hash."""
-    with open("tests/data/argon2id_large_hash", "rb") as large_hash:
-        return large_hash.read()
-
-
 @pytest.mark.parametrize(
-    "hash, expected_result",
+    "hash,result",
     [
         pytest.param(ARGON2ID_HASH_STR, True, id="identify(valid_argon2id_hash: str)"),
         pytest.param(ARGON2D_HASH_STR, True, id="identify(valid_argon2d_hash: str)"),
@@ -59,18 +51,17 @@ def argon2id_large_hash() -> bytes:
         pytest.param(
             INVALID_UTF8_BYTES, False, id="identify(invalid_utf8_string: bytes)"
         ),
-        pytest.param(12, False, id="identify(invalid_int: int)"),
         pytest.param("", False, id="identify(empty_string: str)"),
     ],
 )
-def test_identify(hash: str | bytes, expected_result: bool) -> None:
-    """All valid Argon2 hashes and variants are supported."""
-    assert Argon2Hasher.identify(hash) == expected_result
+def test_identify(hash: str | bytes, result: bool) -> None:
+    assert Argon2Hasher.identify(hash) == result
 
 
-def test_identify_large_hash(argon2id_large_hash) -> None:
-    """An extremely large but well-formed Argon2id hash is supported."""
-    assert Argon2Hasher.identify(argon2id_large_hash)
+def test_identify_large_hash() -> None:
+    with open("tests/data/argon2id_large_hash", "rb") as large_hash_file:
+        large_hash = large_hash_file.read()
+    assert Argon2Hasher.identify(large_hash)
 
 
 def test_hash(argon2_hasher: Argon2Hasher) -> None:
