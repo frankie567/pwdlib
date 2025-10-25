@@ -51,14 +51,14 @@ That's why I decided to start `pwdlib`, a password hash helper for the modern Py
 
 ### Setup environment
 
-We use [Hatch](https://hatch.pypa.io/latest/install/) to manage the development environment and production build. Ensure it's installed on your system.
+We use [uv](https://docs.astral.sh/uv/) to manage the development environment and production build, and [just](https://github.com/casey/just) to manage command shortcuts. Ensure they are installed on your system.
 
 ### Run unit tests
 
 You can run all the tests with:
 
 ```bash
-hatch run test
+just test
 ```
 
 ### Format the code

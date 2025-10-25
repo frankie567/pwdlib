@@ -30,14 +30,17 @@ jobs:
             - name: Set up Python
               uses: actions/setup-python@v6
               with:
-                  python-version: "3.10"
-            - name: Install dependencies
-              run: |
-                  python -m pip install --upgrade pip
-                  pip install hatch
-                  hatch env create
+                  python-version: ${{ matrix.python_version }}
+            - name: Setup Just
+              uses: extractions/setup-just@v3
+            - name: Install uv and set the Python version
+              uses: astral-sh/setup-uv@v6
+              with:
+                  python-version: ${{ matrix.python-version }}
+            - name: Install the project
+              run: uv sync --locked --all-extras --dev
             - name: Build
-              run: hatch run docs-build
+              run: just docs-build
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v4
               with:

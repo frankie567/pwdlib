@@ -1,58 +1,3 @@
-[tool.ruff]
-target-version = "py310"
-
-[tool.ruff.lint]
-extend-select = ["I", "TRY", "UP"]
-
-[tool.pytest.ini_options]
-addopts = "--cov=pwdlib/ --cov-report=term-missing"
-
-
-[tool.hatch]
-
-[tool.hatch.metadata]
-allow-direct-references = true
-
-[tool.hatch.version]
-source = "regex_commit"
-commit_extra_args = ["-e"]
-path = "pwdlib/__init__.py"
-
-[tool.hatch.envs.default]
-installer = "uv"
-features = [
-    "argon2",
-    "bcrypt",
-]
-dependencies = [
-    "mypy",
-    "ruff",
-    "pytest",
-    "pytest-cov",
-    "mkdocs-material",
-    "mkdocstrings[python]",
-]
-
-[tool.hatch.envs.default.scripts]
-test = "pytest"
-test-cov-xml = "pytest --cov-report=xml"
-lint = [
-  "ruff format .",
-  "ruff check --fix .",
-  "mypy pwdlib/",
-]
-lint-check = [
-  "ruff format --check .",
-  "ruff check .",
-  "mypy pwdlib/",
-]
-docs-serve = "mkdocs serve"
-docs-build = "mkdocs build"
-
-[build-system]
-requires = ["hatchling", "hatch-regex-commit"]
-build-backend = "hatchling.build"
-
 [project]
 name = "pwdlib"
 authors = [
@@ -89,3 +34,34 @@ bcrypt = [
 [project.urls]
 Documentation = "https://frankie567.github.io/pwdlib/"
 Source = "https://github.com/frankie567/pwdlib"
+
+[build-system]
+requires = ["hatchling", "hatch-regex-commit"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "regex_commit"
+commit_extra_args = ["-e"]
+path = "pwdlib/__init__.py"
+
+[dependency-groups]
+dev = [
+    "mypy",
+    "ruff",
+    "pytest",
+    "pytest-cov",
+    "mkdocs-material",
+    "mkdocstrings[python]",
+]
+
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint]
+extend-select = ["I", "TRY", "UP"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=pwdlib/ --cov-report=term-missing"
+
+[tool.uv]
+default-groups = ["dev"]
