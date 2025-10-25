@@ -63,3 +63,79 @@ def test_check_needs_rehash(bcrypt_hasher: BcryptHasher) -> None:
     bcrypt_hasher_different_prefix = BcryptHasher(prefix="2a")
     hash = bcrypt_hasher_different_prefix.hash("herminetincture")
     assert bcrypt_hasher.check_needs_rehash(hash)
+
+
+@pytest.mark.parametrize(
+    "invalid_value",
+    [
+        pytest.param(123, id="int"),
+        pytest.param(None, id="None"),
+        pytest.param([], id="list"),
+        pytest.param({}, id="dict"),
+    ],
+)
+def test_identify_invalid_type(invalid_value: object) -> None:
+    with pytest.raises(TypeError, match="hash must be str or bytes"):
+        BcryptHasher.identify(invalid_value)  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize(
+    "invalid_value",
+    [
+        pytest.param(123, id="int"),
+        pytest.param(None, id="None"),
+        pytest.param([], id="list"),
+        pytest.param({}, id="dict"),
+    ],
+)
+def test_hash_invalid_type(invalid_value: object, bcrypt_hasher: BcryptHasher) -> None:
+    with pytest.raises(TypeError, match="password must be str or bytes"):
+        bcrypt_hasher.hash(invalid_value)  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize(
+    "invalid_value",
+    [
+        pytest.param(123, id="int"),
+        pytest.param(None, id="None"),
+        pytest.param([], id="list"),
+        pytest.param({}, id="dict"),
+    ],
+)
+def test_verify_invalid_password_type(
+    invalid_value: object, bcrypt_hasher: BcryptHasher
+) -> None:
+    with pytest.raises(TypeError, match="password must be str or bytes"):
+        bcrypt_hasher.verify(invalid_value, _HASH_STR)  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize(
+    "invalid_value",
+    [
+        pytest.param(123, id="int"),
+        pytest.param(None, id="None"),
+        pytest.param([], id="list"),
+        pytest.param({}, id="dict"),
+    ],
+)
+def test_verify_invalid_hash_type(
+    invalid_value: object, bcrypt_hasher: BcryptHasher
+) -> None:
+    with pytest.raises(TypeError, match="hash must be str or bytes"):
+        bcrypt_hasher.verify(_PASSWORD, invalid_value)  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize(
+    "invalid_value",
+    [
+        pytest.param(123, id="int"),
+        pytest.param(None, id="None"),
+        pytest.param([], id="list"),
+        pytest.param({}, id="dict"),
+    ],
+)
+def test_check_needs_rehash_invalid_type(
+    invalid_value: object, bcrypt_hasher: BcryptHasher
+) -> None:
+    with pytest.raises(TypeError, match="hash must be str or bytes"):
+        bcrypt_hasher.check_needs_rehash(invalid_value)  # type: ignore[arg-type]
