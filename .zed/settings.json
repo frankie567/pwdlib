@@ -19,7 +19,7 @@
         "basedpyright": {
             "settings": {
                 "python": {
-                    "pythonPath": ".hatch/pwdlib/bin/python"
+                    "pythonPath": ".venv/bin/python"
                 },
                 "basedpyright.analysis": {
                     "autoImportCompletions": true
