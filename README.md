@@ -31,6 +31,19 @@ hash = password_hash.hash("herminetincture")
 password_hash.verify("herminetincture", hash)  # True
 ```
 
+### Password strength checking
+
+```sh
+pip install 'pwdlib[zxcvbn]'
+```
+
+```py
+from pwdlib.zxcvbn import zxcvbn
+
+result = zxcvbn("correct horse battery staple")
+result.score  # Score from 0 (weak) to 4 (strong)
+```
+
 ## Why `pwdlib`?
 
 For years, the de-facto standard to hash passwords was [`passlib`](https://foss.heptapod.net/python-libs/passlib). Unfortunately, it has not been very active recently and its [maintenance status is under question](https://foss.heptapod.net/python-libs/passlib/-/issues/187). Starting Python 3.13, `passlib` won't work anymore.
@@ -41,6 +54,7 @@ That's why I decided to start `pwdlib`, a password hash helper for the modern Py
 
 - [x] Provide an easy-to-use wrapper to hash and verify passwords
 - [x] Support modern and secure algorithms like Argon2 or Bcrypt
+- [x] Provide password strength checking capabilities
 
 **❌ Non-goals**
 

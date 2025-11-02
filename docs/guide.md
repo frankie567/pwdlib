@@ -103,3 +103,44 @@ valid, updated_hash = password_hash.verify_and_update("herminetincture", hash)
 If the hash needs to be updated, `updated_hash` will be a string. Otherwise, it's `None`. Then, don't forget to update it in your database.
 
 It's worth to note that the hash is also upgraded if the **settings of the algorithm** has been changed, like the time or memory cost.
+
+## Password strength checking
+
+`pwdlib` also includes password strength checking capabilities through [zxcvbn](https://github.com/dropbox/zxcvbn), a password strength estimator. This is a Rust-based implementation providing fast and accurate password strength measurement.
+
+!!! warning "The zxcvbn extra must be installed"
+
+    The zxcvbn functionality is built from Rust code and requires the `zxcvbn` extra to be installed:
+
+    ```sh
+    pip install 'pwdlib[zxcvbn]'
+    ```
+
+### Check password strength
+
+You can check the strength of a password using the `zxcvbn` function:
+
+```py
+from pwdlib.zxcvbn import zxcvbn
+
+result = zxcvbn("p@ssw0rd")
+print(f"Score: {result.score}")  # Score from 0 (weak) to 4 (strong)
+print(f"Guesses: {result.guesses}")  # Estimated guesses needed to crack
+```
+
+The result includes:
+
+- `score`: A score from 0-4, where scores less than 3 are considered too weak
+- `guesses`: Estimated number of guesses needed to crack the password
+- `crack_times_seconds`: Crack time estimates for various scenarios
+- `crack_times_display`: Human-readable crack time estimates
+- `feedback`: Suggestions for improving the password (when score ≤ 2)
+
+### Provide user context
+
+You can also provide user-specific inputs to detect passwords that are weak in the context of that user:
+
+```py
+result = zxcvbn("john1990", user_inputs=["john", "doe", "1990"])
+# This will detect that the password uses personal information
+```
