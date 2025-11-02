@@ -106,3 +106,7 @@ ENV/
 
 # OS files
 .DS_Store
+
+# Rust build artifacts
+/target/
+**/*.rs.bk

@@ -5,7 +5,8 @@ authors = [
 ]
 description = "Modern password hashing for Python"
 readme = "README.md"
-dynamic = ["version"]
+dynamic = []
+version = "0.3.0"
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Development Status :: 4 - Beta",
@@ -18,6 +19,7 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Rust",
 ]
 requires-python = ">=3.10"
 dependencies = [
@@ -31,19 +33,20 @@ argon2 = [
 bcrypt = [
     "bcrypt >=4.1.2,<6",
 ]
+zxcvbn = []
 
 [project.urls]
 Documentation = "https://frankie567.github.io/pwdlib/"
 Source = "https://github.com/frankie567/pwdlib"
 
 [build-system]
-requires = ["hatchling", "hatch-regex-commit"]
-build-backend = "hatchling.build"
+requires = ["maturin>=1.4,<2.0"]
+build-backend = "maturin"
 
-[tool.hatch.version]
-source = "regex_commit"
-commit_extra_args = ["-e"]
-path = "pwdlib/__init__.py"
+[tool.maturin]
+features = ["pyo3/extension-module"]
+python-source = "."
+module-name = "pwdlib._zxcvbn"
 
 [dependency-groups]
 dev = [
@@ -53,6 +56,7 @@ dev = [
     "pytest-cov",
     "mkdocs-material",
     "mkdocstrings[python]",
+    "maturin>=1.4,<2.0",
 ]
 
 [tool.ruff]

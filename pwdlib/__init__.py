@@ -4,4 +4,9 @@ __version__ = "0.3.0"
 
 from ._hash import PasswordHash
 
-__all__ = ["PasswordHash"]
+try:
+    from . import zxcvbn
+except ImportError:
+    zxcvbn = None  # type: ignore
+
+__all__ = ["PasswordHash", "zxcvbn"]
