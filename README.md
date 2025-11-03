@@ -72,7 +72,7 @@ That's why I decided to start `pwdlib`, a password hash helper for the modern Py
 
 We use [uv](https://docs.astral.sh/uv/) to manage the development environment and production build, and [just](https://github.com/casey/just) to manage command shortcuts. Ensure they are installed on your system.
 
-**Note:** pwdlib includes Rust extensions for password strength checking. You'll need [Rust](https://rustup.rs/) installed to build from source. For development builds, run `just build-rust` to compile the Rust extensions.
+**Note:** pwdlib includes Rust extensions for password strength checking. You'll need [Rust](https://rustup.rs/) installed to build from source.
 
 ### Run unit tests
 

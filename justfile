@@ -3,11 +3,6 @@
 install:
     uv sync --all-extras
 
-# Build Rust extension and copy to source directory for development
-build-rust:
-    cargo build --release
-    cp target/release/lib_zxcvbn.so pwdlib/_zxcvbn.so
-
 lint:
     uv run ruff format .
     uv run ruff check --fix .

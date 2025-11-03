@@ -37,12 +37,7 @@ Documentation = "https://frankie567.github.io/pwdlib/"
 Source = "https://github.com/frankie567/pwdlib"
 
 [build-system]
-# NOTE: Using hatchling-pyo3-plugin requires a patched version due to a glob pattern bug.
-# The fix changes lib_patterns to lib_suffix to avoid creating invalid glob patterns like "lib**.so".
-# Issue: hatchling-pyo3-plugin line 136 uses f"lib*{pattern}" where pattern already contains "*".
-# Until the fix is published, use: pip install git+https://github.com/frankie567/hatchling-pyo3-plugin@fix-glob-bug
-# or manually install the built .so file from target/release/ to pwdlib/_zxcvbn.so for development.
-requires = ["hatchling", "hatch-regex-commit", "hatchling-pyo3-plugin"]
+requires = ["hatchling", "hatch-regex-commit", "hatchling-pyo3-plugin>=0.1.1"]
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
