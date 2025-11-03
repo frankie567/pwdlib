@@ -1,0 +1,12 @@
+[package]
+name = "pwdlib"
+version = "0.3.0"
+edition = "2021"
+
+[lib]
+name = "_zxcvbn"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = "^0.23"
+zxcvbn = "3.1.0"
