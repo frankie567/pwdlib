@@ -2,6 +2,8 @@
 
 install:
     uv sync --all-extras
+    @# Copy Rust extension to source directory for editable install
+    @cp .venv/lib/python*/site-packages/pwdlib/_zxcvbn.so pwdlib/_zxcvbn.so 2>/dev/null || true
 
 lint:
     uv run ruff format .

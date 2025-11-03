@@ -71,6 +71,9 @@ docs/_build/
 # PyBuilder
 target/
 
+# Rust
+Cargo.lock
+
 # Jupyter Notebook
 .ipynb_checkpoints
 

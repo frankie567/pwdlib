@@ -37,13 +37,16 @@ Documentation = "https://frankie567.github.io/pwdlib/"
 Source = "https://github.com/frankie567/pwdlib"
 
 [build-system]
-requires = ["hatchling", "hatch-regex-commit"]
+requires = ["hatchling", "hatch-regex-commit", "hatchling-pyo3-plugin>=0.1.1"]
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
 source = "regex_commit"
 commit_extra_args = ["-e"]
 path = "pwdlib/__init__.py"
+
+[tool.hatch.build.hooks.pyo3]
+# PyO3 Rust extension configuration
 
 [dependency-groups]
 dev = [
