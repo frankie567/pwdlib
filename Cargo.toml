@@ -8,5 +8,5 @@ name = "_zxcvbn"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = "^0.23"
+pyo3 = "^0.27"
 zxcvbn = "3.1.0"
