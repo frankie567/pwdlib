@@ -31,6 +31,24 @@ hash = password_hash.hash("herminetincture")
 password_hash.verify("herminetincture", hash)  # True
 ```
 
+## Password Strength Checking
+
+`pwdlib` also includes built-in password strength checking using [zxcvbn](https://github.com/dropbox/zxcvbn), powered by the Rust implementation:
+
+```py
+from pwdlib.zxcvbn import zxcvbn, Score
+
+result = zxcvbn("correcthorsebatterystaple")
+print(result.score)  # Score.FOUR (strong password)
+
+weak_result = zxcvbn("password")
+print(weak_result.score)  # Score.ZERO (very weak)
+
+# Check against user-specific data
+user_result = zxcvbn("john1990", user_inputs=["john", "1990"])
+print(user_result.feedback)  # Helpful suggestions
+```
+
 ## Why `pwdlib`?
 
 For years, the de-facto standard to hash passwords was [`passlib`](https://foss.heptapod.net/python-libs/passlib). Unfortunately, it has not been very active recently and its [maintenance status is under question](https://foss.heptapod.net/python-libs/passlib/-/issues/187). Starting Python 3.13, `passlib` won't work anymore.
@@ -41,6 +59,7 @@ That's why I decided to start `pwdlib`, a password hash helper for the modern Py
 
 - [x] Provide an easy-to-use wrapper to hash and verify passwords
 - [x] Support modern and secure algorithms like Argon2 or Bcrypt
+- [x] Include password strength checking with zxcvbn
 
 **❌ Non-goals**
 
@@ -52,6 +71,8 @@ That's why I decided to start `pwdlib`, a password hash helper for the modern Py
 ### Setup environment
 
 We use [uv](https://docs.astral.sh/uv/) to manage the development environment and production build, and [just](https://github.com/casey/just) to manage command shortcuts. Ensure they are installed on your system.
+
+**Note:** pwdlib includes Rust extensions for password strength checking. You'll need [Rust](https://rustup.rs/) installed to build from source. For development builds, run `just build-rust` to compile the Rust extensions.
 
 ### Run unit tests
 
