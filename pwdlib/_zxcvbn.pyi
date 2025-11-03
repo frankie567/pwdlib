@@ -2,6 +2,13 @@ from enum import Enum, auto
 
 __version__: str
 
+class Score(Enum):
+    ZERO = 0
+    ONE = 1
+    TWO = 2
+    THREE = 3
+    FOUR = 4
+
 class Warning(Enum):
     StraightRowsOfKeysAreEasyToGuess = auto()
     ShortKeyboardPatternsAreEasyToGuess = auto()
@@ -64,7 +71,7 @@ class Entropy:
     crack_times_display: CrackTimesDisplay
     """Same as crack_times_seconds, with friendlier display string values."""
 
-    score: int
+    score: Score
     """
     Overall strength score from 0-4.
     Any score less than 3 should be considered too weak.
