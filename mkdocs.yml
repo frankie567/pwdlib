@@ -53,7 +53,7 @@ plugins:
     - mkdocstrings:
           handlers:
               python:
-                  import:
+                  inventories:
                       - https://docs.python.org/3.10/objects.inv
                   options:
                       docstring_style: google
