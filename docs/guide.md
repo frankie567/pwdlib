@@ -67,7 +67,11 @@ The resulting string is a hash generated from the **current algorithm**, which y
 
 !!! question "Where is the salt?"
 
-    If you know about password hashing algorithms, you probably know that *salting* the password is an important security feature. Back in the days, it was common to store the salt separately from the hash. Nowadays, most algorithms have a specific structure allowing them to store algorithm parameters and salt along with the hash in one string.
+    If you know about password hashing algorithms, you probably know that *salting* the password is an important security feature.
+
+    By default, `hash()` chooses a salt for you.
+
+    Back in the days, it was common to store the salt separately from the hash. Nowadays, most algorithms have a specific structure allowing them to store algorithm parameters and salt along with the hash in one string.
 
     For example, here is an Argon2 hash:
 
