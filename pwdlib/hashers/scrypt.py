@@ -91,9 +91,10 @@ class ScryptHasher(HasherProtocol):
 
         if salt is None:
             salt = os.urandom(self.salt_len)
-
-        # Ensure salt is the correct length
-        salt = salt[: self.salt_len]
+        elif len(salt) != self.salt_len:
+            raise ValueError(
+                f"salt must be exactly {self.salt_len} bytes long"
+            )
 
         # Generate the scrypt hash
         derived_key = hashlib.scrypt(
