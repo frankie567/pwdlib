@@ -1,5 +1,7 @@
 import base64
+import binascii
 import hashlib
+import hmac
 import os
 import re
 
@@ -156,8 +158,8 @@ class ScryptHasher(HasherProtocol):
             )
 
             # Use constant-time comparison
-            return derived_key == expected_hash
-        except (ValueError, TypeError):
+            return hmac.compare_digest(derived_key, expected_hash)
+        except (ValueError, TypeError, binascii.Error):
             return False
 
     def check_needs_rehash(self, hash: str | bytes) -> bool:

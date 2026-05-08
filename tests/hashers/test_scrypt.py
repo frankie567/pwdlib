@@ -1,5 +1,6 @@
 import base64
 import hashlib
+
 import pytest
 
 from pwdlib.hashers.scrypt import ScryptHasher
@@ -26,9 +27,21 @@ def scrypt_hasher_custom_params() -> ScryptHasher:
     [
         pytest.param(_HASH_STR, True, id="identify(valid_scrypt_hash: str)"),
         pytest.param(_HASH_BYTES, True, id="identify(valid_scrypt_hash: bytes)"),
-        pytest.param("$scrypt$16384$invalid$8$1", False, id="identify(invalid_scrypt_hash: wrong_format)"),
-        pytest.param("$bcrypt$12$N9Zh0y3G.3yBxRlA57Wo1O3TEmZBx2SF5N2P0t3jOTuK./Ko8dH3u", False, id="identify(bcrypt_hash)"),
-        pytest.param("$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$Hnm7B2p4pnTo3mQ5qFmnHjR1OZBtVXd1B33joTc/XXg", False, id="identify(argon2_hash)"),
+        pytest.param(
+            "$scrypt$16384$invalid$8$1",
+            False,
+            id="identify(invalid_scrypt_hash: wrong_format)",
+        ),
+        pytest.param(
+            "$bcrypt$12$N9Zh0y3G.3yBxRlA57Wo1O3TEmZBx2SF5N2P0t3jOTuK./Ko8dH3u",
+            False,
+            id="identify(bcrypt_hash)",
+        ),
+        pytest.param(
+            "$argon2id$v=19$m=65536,t=3,p=4$c29tZXNhbHQ$Hnm7B2p4pnTo3mQ5qFmnHjR1OZBtVXd1B33joTc/XXg",
+            False,
+            id="identify(argon2_hash)",
+        ),
         pytest.param("", False, id="identify(empty_string: str)"),
         pytest.param(b"", False, id="identify(empty_string: bytes)"),
     ],
@@ -93,6 +106,14 @@ def test_verify_invalid_hash_format(scrypt_hasher: ScryptHasher) -> None:
     assert not scrypt_hasher.verify(_PASSWORD, b"INVALID_HASH")
 
 
+def test_verify_malformed_base64(scrypt_hasher: ScryptHasher) -> None:
+    """Test that verify returns False for hashes with invalid base64 encoding."""
+    # Hash that matches the regex but has invalid base64 (bad padding)
+    malformed_hash = "$scrypt$16384$invalid!!!base64$8$1$invalid!!!base64"
+    assert not scrypt_hasher.verify(_PASSWORD, malformed_hash)
+    assert not scrypt_hasher.verify(_PASSWORD, malformed_hash.encode("ascii"))
+
+
 def test_check_needs_rehash(scrypt_hasher: ScryptHasher) -> None:
     # Hash with default params should not need rehash
     hash = scrypt_hasher.hash(_PASSWORD)
@@ -100,7 +121,9 @@ def test_check_needs_rehash(scrypt_hasher: ScryptHasher) -> None:
     assert not scrypt_hasher.check_needs_rehash(hash.encode("ascii"))
 
 
-def test_check_needs_rehash_different_params(scrypt_hasher: ScryptHasher, scrypt_hasher_custom_params: ScryptHasher) -> None:
+def test_check_needs_rehash_different_params(
+    scrypt_hasher: ScryptHasher, scrypt_hasher_custom_params: ScryptHasher
+) -> None:
     # Hash with custom params should need rehash when checked with default params
     hash = scrypt_hasher_custom_params.hash(_PASSWORD)
     assert scrypt_hasher.check_needs_rehash(hash)
@@ -150,7 +173,6 @@ def test_hash_format(scrypt_hasher: ScryptHasher) -> None:
 
     # Check that salt and hash are valid base64
     salt_b64 = parts[3]
-    hash_b64 = parts[6]
 
     # The salt should be base64 decodable
     salt = base64.b64decode(salt_b64)
