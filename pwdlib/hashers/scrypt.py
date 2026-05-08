@@ -2,7 +2,6 @@ import base64
 import hashlib
 import os
 import re
-import typing
 
 from .base import HasherProtocol, ensure_bytes, ensure_str, validate_str_or_bytes
 
