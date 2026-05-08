@@ -92,7 +92,7 @@ class ScryptHasher(HasherProtocol):
             salt = os.urandom(self.salt_len)
         elif len(salt) != self.salt_len:
             raise ValueError(
-                f"salt must be exactly {self.salt_len} bytes long"
+                f"salt must be exactly {self.salt_len} bytes long, got {len(salt)}"
             )
 
         # Generate the scrypt hash

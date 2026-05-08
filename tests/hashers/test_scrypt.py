@@ -52,15 +52,15 @@ def test_hash_with_custom_salt(scrypt_hasher: ScryptHasher) -> None:
 
 
 def test_hash_deterministic_with_same_salt(scrypt_hasher: ScryptHasher) -> None:
-    custom_salt = b"fixedsalt12345678"
+    custom_salt = b"fixedsalt1234567"
     hash1 = scrypt_hasher.hash(_PASSWORD, salt=custom_salt)
     hash2 = scrypt_hasher.hash(_PASSWORD, salt=custom_salt)
     assert hash1 == hash2
 
 
 def test_hash_different_with_different_salt(scrypt_hasher: ScryptHasher) -> None:
-    hash1 = scrypt_hasher.hash(_PASSWORD, salt=b"salt1")
-    hash2 = scrypt_hasher.hash(_PASSWORD, salt=b"salt2")
+    hash1 = scrypt_hasher.hash(_PASSWORD, salt=b"salt1xxxxxxxxxxx")
+    hash2 = scrypt_hasher.hash(_PASSWORD, salt=b"salt2xxxxxxxxxxx")
     assert hash1 != hash2
 
 
@@ -160,7 +160,7 @@ def test_hash_format(scrypt_hasher: ScryptHasher) -> None:
 def test_verify_manual_hash(scrypt_hasher: ScryptHasher) -> None:
     """Test verification with a manually constructed hash."""
     password = "test123"
-    salt = b"manuelsalt1234"
+    salt = b"manuelsalt123456"
 
     # Create hash manually
     derived_key = hashlib.scrypt(
