@@ -53,6 +53,7 @@ dev = [
     "pytest-cov",
     "mkdocs-material",
     "mkdocstrings[python]",
+    "typing-extensions",
 ]
 
 [tool.ruff]
