@@ -21,7 +21,7 @@ classifiers = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-
+    "typing-extensions>=4.16.0; python_version < '3.11'",
 ]
 
 [project.optional-dependencies]
@@ -29,7 +29,7 @@ argon2 = [
     "argon2-cffi >=23.1.0",
 ]
 bcrypt = [
-    "bcrypt >=4.1.2,<6",
+    "bcrypt >=4.1.2",
 ]
 
 [project.urls]
@@ -53,7 +53,6 @@ dev = [
     "pytest-cov",
     "mkdocs-material",
     "mkdocstrings[python]",
-    "typing-extensions",
 ]
 
 [tool.ruff]
