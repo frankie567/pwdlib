@@ -1,7 +1,7 @@
 [project]
 name = "pwdlib"
 authors = [
-  { name = "pwdlib", email = "fvoron@gmail.com" }
+    { name = "pwdlib", email = "me@fvoron.com" }
 ]
 description = "Modern password hashing for Python"
 readme = "README.md"
