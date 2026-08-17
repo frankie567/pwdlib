@@ -54,7 +54,7 @@ class PasswordHash:
 
         Args:
             password: The password to be hashed.
-            salt: The salt to be used for hashing. Defaults to None.
+            salt: The salt to be used for hashing. If set to `None`, a random salt is used.
 
         Returns:
             The hashed password.
