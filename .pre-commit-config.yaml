@@ -1,0 +1,30 @@
+repos:
+- repo: https://github.com/gitleaks/gitleaks
+  rev: v8.30.1
+  hooks:
+  - id: gitleaks
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+  - id: end-of-file-fixer
+    exclude: ^tests/data/argon2id_large_hash$
+  - id: trailing-whitespace
+- repo: local
+  hooks:
+  - id: ruff-check
+    name: Ruff lint
+    entry: uv run --locked ruff check --fix --force-exclude
+    language: system
+    types_or: [python, pyi]
+  - id: ruff-format
+    name: Ruff format
+    entry: uv run --locked ruff format --force-exclude
+    language: system
+    types_or: [python, pyi, markdown]
+  - id: ty
+    name: ty
+    entry: uv run --locked --all-extras ty check pwdlib/ tests/
+    language: system
+    types_or: [python, pyi, toml]
+    pass_filenames: false
+    always_run: true

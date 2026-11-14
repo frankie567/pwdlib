@@ -1,0 +1,62 @@
+[project]
+site_name = "pwdlib"
+site_description = "Modern password hashing for Python"
+site_url = "https://frankie567.github.io/pwdlib/"
+repo_url = "https://github.com/frankie567/pwdlib"
+repo_name = "frankie567/pwdlib"
+watch = ["pwdlib"]
+nav = [
+    { "About" = "index.md" },
+    { "Guide" = "guide.md" },
+    { "Reference" = [
+        { "pwdlib" = "reference/pwdlib.md" },
+        { "pwdlib.exceptions" = "reference/pwdlib.exceptions.md" },
+        { "pwdlib.hashers" = "reference/pwdlib.hashers.md" },
+    ] },
+]
+
+[project.theme]
+features = ["navigation.path", "content.code.copy"]
+
+[project.theme.icon]
+logo = "octicons/key-16"
+repo = "fontawesome/brands/github"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+primary = "amber"
+accent = "amber"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "amber"
+accent = "amber"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "amber"
+accent = "amber"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+
+[project.markdown_extensions]
+toc.permalink = true
+pymdownx.highlight.anchor_linenums = true
+pymdownx.tasklist.custom_checkbox = true
+pymdownx.inlinehilite = {}
+pymdownx.snippets = {}
+pymdownx.superfences = {}
+admonition = {}
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["."]
+inventories = ["https://docs.python.org/3.11/objects.inv"]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+docstring_style = "google"

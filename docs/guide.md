@@ -15,10 +15,12 @@ from pwdlib import PasswordHash, exceptions
 from pwdlib.hashers.argon2 import Argon2Hasher
 from pwdlib.hashers.bcrypt import BcryptHasher
 
-password_hash = PasswordHash((
-    Argon2Hasher(),
-    BcryptHasher(),
-))
+password_hash = PasswordHash(
+    (
+        Argon2Hasher(),
+        BcryptHasher(),
+    )
+)
 ```
 
 [`PasswordHash`](./reference/pwdlib.md#pwdlib.PasswordHash) expects a tuple (or list) of hashing algorithms.

@@ -11,21 +11,27 @@ on:
         paths:
             - .github/workflows/copilot-setup-steps.yml
 
+permissions:
+    contents: read
+
 jobs:
     # The job MUST be called `copilot-setup-steps` or it will not be picked up by Copilot.
     copilot-setup-steps:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v7
-            - name: Set up Python
-              uses: actions/setup-python@v7
+            - name: Harden the runner (Audit all outbound calls)
+              uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
               with:
-                  python-version: "3.10"
+                egress-policy: audit
+
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
             - name: Setup Just
-              uses: extractions/setup-just@v4
+              uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4.0.0
             - name: Install uv and set the Python version
-              uses: astral-sh/setup-uv@v7
+              uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
               with:
-                  python-version: "3.10"
+                  python-version: "3.14"
             - name: Install the project
-              run: uv sync --locked --all-extras --dev
+              run: uv sync --locked --all-extras

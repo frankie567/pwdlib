@@ -98,12 +98,12 @@ def test_verify(
 )
 def test_invalid_type(invalid_value: object, argon2_hasher: Argon2Hasher) -> None:
     with pytest.raises(TypeError, match="hash must be str or bytes"):
-        Argon2Hasher.identify(invalid_value)  # type: ignore[arg-type]
+        Argon2Hasher.identify(invalid_value)  # ty: ignore[invalid-argument-type]
     with pytest.raises(TypeError, match="password must be str or bytes"):
-        argon2_hasher.hash(invalid_value)  # type: ignore[arg-type]
+        argon2_hasher.hash(invalid_value)  # ty: ignore[invalid-argument-type]
     with pytest.raises(TypeError, match="password must be str or bytes"):
-        argon2_hasher.verify(invalid_value, _HASH_STR)  # type: ignore[arg-type]
+        argon2_hasher.verify(invalid_value, _HASH_STR)  # ty: ignore[invalid-argument-type]
     with pytest.raises(TypeError, match="hash must be str or bytes"):
-        argon2_hasher.verify(_PASSWORD, invalid_value)  # type: ignore[arg-type]
+        argon2_hasher.verify(_PASSWORD, invalid_value)  # ty: ignore[invalid-argument-type]
     with pytest.raises(TypeError, match="hash must be str or bytes"):
-        argon2_hasher.check_needs_rehash(invalid_value)  # type: ignore[arg-type]
+        argon2_hasher.check_needs_rehash(invalid_value)  # ty: ignore[invalid-argument-type]

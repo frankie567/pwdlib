@@ -98,11 +98,8 @@ ENV/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
+# Documentation build
 /site
-
-# mypy
-.mypy_cache/
 
 # OS files
 .DS_Store
