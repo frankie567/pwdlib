@@ -1,0 +1,23 @@
+.github/workflows/documentation.yml
+  s_f4240ea57a3cf1::t_9a00701b287439 35
+justfile
+  s_f4240ea57a3cf1::t_c500044b4646f0 4-5,24,27,39
+uv.lock
+  s_f4240ea57a3cf1::t_7ddc3171a86489 792-793,812-813
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "90ce828326eb5168ab74d0aa0ca292d1289f73e8",
+  "prompts": {},
+  "sessions": {
+    "s_f4240ea57a3cf1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1d946-ff05-7fb0-b990-86812c4f6e92",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "François Voron <me@fvoron.com>"
+    }
+  }
+}
