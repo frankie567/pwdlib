@@ -1,8 +1,8 @@
 # https://just.systems
 
 install:
-    uv sync --locked --all-extras --group docs --group hooks
-    uv run --locked --group hooks pre-commit install
+    uv sync --locked --all-extras
+    uv run --locked pre-commit install
 
 lint:
     uv run --locked ruff format .
@@ -21,10 +21,10 @@ test-cov-xml:
     uv run --locked --all-extras pytest --cov-report=xml
 
 docs-serve:
-    uv run --locked --group docs zensical serve
+    uv run --locked zensical serve
 
 docs-build:
-    uv run --locked --group docs zensical build --strict
+    uv run --locked zensical build --strict
 
 build:
     uv run --locked --all-extras uv build --no-build-isolation
@@ -36,7 +36,7 @@ version bump:
         echo "Commit or stash changes before preparing a release." >&2
         exit 1
     fi
-    uv sync --locked
+    uv sync --locked --all-extras
     if ! uv run --no-sync python -c '
     import keepachangelog
 

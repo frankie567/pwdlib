@@ -48,12 +48,8 @@ dev = [
     "pytest-cov",
     "hatchling",
     "keepachangelog>=2.0.0",
-]
-docs = [
     "zensical>=0.0.63",
     "mkdocstrings-python>=2.0.8",
-]
-hooks = [
     "pre-commit",
 ]
 

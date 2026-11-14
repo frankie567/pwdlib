@@ -789,17 +789,13 @@ bcrypt = [
 dev = [
     { name = "hatchling" },
     { name = "keepachangelog" },
+    { name = "mkdocstrings-python" },
+    { name = "pre-commit" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
     { name = "ty" },
-]
-docs = [
-    { name = "mkdocstrings-python" },
     { name = "zensical" },
-]
-hooks = [
-    { name = "pre-commit" },
 ]
 
 [package.metadata]
@@ -813,16 +809,14 @@ provides-extras = ["argon2", "bcrypt"]
 dev = [
     { name = "hatchling" },
     { name = "keepachangelog", specifier = ">=2.0.0" },
+    { name = "mkdocstrings-python", specifier = ">=2.0.8" },
+    { name = "pre-commit" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
     { name = "ty" },
-]
-docs = [
-    { name = "mkdocstrings-python", specifier = ">=2.0.8" },
     { name = "zensical", specifier = ">=0.0.63" },
 ]
-hooks = [{ name = "pre-commit" }]
 
 [[package]]
 name = "pycparser"
