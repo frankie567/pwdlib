@@ -1,0 +1,16 @@
+CHANGELOG.md
+  h_868de2c7aaf22e 7-8,31-32
+pwdlib/__init__.py
+  h_868de2c7aaf22e 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d5e82c75d8d1af2caaa7510eb0fc48dd659aa3ad",
+  "prompts": {},
+  "humans": {
+    "h_868de2c7aaf22e": {
+      "author": "François Voron <me@fvoron.com>"
+    }
+  }
+}
