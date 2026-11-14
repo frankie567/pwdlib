@@ -76,12 +76,12 @@ def test_check_needs_rehash(bcrypt_hasher: BcryptHasher) -> None:
 )
 def test_invalid_type(invalid_value: object, bcrypt_hasher: BcryptHasher) -> None:
     with pytest.raises(TypeError, match="hash must be str or bytes"):
-        BcryptHasher.identify(invalid_value)  # type: ignore[arg-type]
+        BcryptHasher.identify(invalid_value)  # ty: ignore[invalid-argument-type]
     with pytest.raises(TypeError, match="password must be str or bytes"):
-        bcrypt_hasher.hash(invalid_value)  # type: ignore[arg-type]
+        bcrypt_hasher.hash(invalid_value)  # ty: ignore[invalid-argument-type]
     with pytest.raises(TypeError, match="password must be str or bytes"):
-        bcrypt_hasher.verify(invalid_value, _HASH_STR)  # type: ignore[arg-type]
+        bcrypt_hasher.verify(invalid_value, _HASH_STR)  # ty: ignore[invalid-argument-type]
     with pytest.raises(TypeError, match="hash must be str or bytes"):
-        bcrypt_hasher.verify(_PASSWORD, invalid_value)  # type: ignore[arg-type]
+        bcrypt_hasher.verify(_PASSWORD, invalid_value)  # ty: ignore[invalid-argument-type]
     with pytest.raises(TypeError, match="hash must be str or bytes"):
-        bcrypt_hasher.check_needs_rehash(invalid_value)  # type: ignore[arg-type]
+        bcrypt_hasher.check_needs_rehash(invalid_value)  # ty: ignore[invalid-argument-type]

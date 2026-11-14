@@ -1,71 +1,161 @@
 name: Build
 
-on: [push, pull_request]
+on:
+    push:
+        branches: [main]
+        tags: ['v*']
+    pull_request:
+
+permissions:
+    contents: read
 
 jobs:
+    lint:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Harden the runner (Audit all outbound calls)
+              uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+              with:
+                egress-policy: audit
+
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+            - name: Setup Just
+              uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4.0.0
+            - name: Install uv and set the Python version
+              uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+              with:
+                  python-version: '3.14'
+            - name: Install the project
+              run: uv sync --locked --all-extras
+            - name: Lint and typecheck
+              run: just lint-check
+            - name: Build documentation
+              run: just docs-build
+
     test:
         runs-on: ubuntu-latest
         strategy:
+            fail-fast: false
             matrix:
-                python_version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+                python_version: ['3.11', '3.12', '3.13', '3.14', '3.15']
 
         steps:
-            - uses: actions/checkout@v7
-            - name: Set up Python
-              uses: actions/setup-python@v7
+            - name: Harden the runner (Audit all outbound calls)
+              uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+              with:
+                egress-policy: audit
+
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+                  fetch-depth: ${{ startsWith(github.ref, 'refs/tags/') && matrix.python_version == '3.11' && '0' || '1' }}
+            - name: Setup Just
+              uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4.0.0
+            - name: Install uv and set the Python version
+              uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
               with:
                   python-version: ${{ matrix.python_version }}
-            - name: Setup Just
-              uses: extractions/setup-just@v4
-            - name: Install uv and set the Python version
-              uses: astral-sh/setup-uv@v7
-              with:
-                  python-version: ${{ matrix.python-version }}
             - name: Install the project
-              run: uv sync --locked --all-extras --dev
-            - name: Lint and typecheck
-              run: |
-                  just lint-check
+              run: uv sync --locked --all-extras
             - name: Test
+              run: just test-cov-xml
+            - name: Validate release tag
+              if: startsWith(github.ref, 'refs/tags/') && matrix.python_version == '3.11'
               run: |
-                  just test-cov-xml
-            - uses: codecov/codecov-action@v7
+                  [[ "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([ab][0-9]+|rc[0-9]+)?$ ]]
+                  test "$GITHUB_REF_NAME" = "v$(uv run --locked python -c 'import pwdlib; print(pwdlib.__version__)')"
+                  if ! git merge-base --is-ancestor HEAD origin/main; then
+                      echo "::error::The release tag must point to a commit on main."
+                      exit 1
+                  fi
+            - name: Build distributions
+              if: matrix.python_version == '3.11'
+              run: just build
+            - name: Prepare release notes and hashes
+              if: startsWith(github.ref, 'refs/tags/') && matrix.python_version == '3.11'
+              run: |
+                  just release-notes "${GITHUB_REF_NAME#v}" > "dist/pwdlib-${GITHUB_REF_NAME}-release-notes.md"
+                  test -s "dist/pwdlib-${GITHUB_REF_NAME}-release-notes.md"
+                  cd dist
+                  sha256sum *.whl *.tar.gz *-release-notes.md > SHA256SUMS
+            - name: Upload release assets
+              if: startsWith(github.ref, 'refs/tags/') && matrix.python_version == '3.11'
+              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
               with:
+                  name: distributions
+                  path: dist/
+                  if-no-files-found: error
+            - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+              if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+              with:
+                  flags: python-${{ matrix.python_version }}
                   token: ${{ secrets.CODECOV_TOKEN }}
                   fail_ci_if_error: true
                   verbose: true
 
+    security-analysis:
+        permissions:
+            contents: read
+            security-events: write
+        uses: ./.github/workflows/codeql.yml
+
+    tests-passed:
+        runs-on: ubuntu-latest
+        permissions: {}
+        needs: [lint, test]
+        if: always()
+        steps:
+            - env:
+                  LINT_RESULT: ${{ needs.lint.result }}
+                  TEST_RESULT: ${{ needs.test.result }}
+              run: |
+                  test "$LINT_RESULT" = success
+                  test "$TEST_RESULT" = success
+
     release:
         runs-on: ubuntu-latest
         environment: release
-        needs: test
-        if: startsWith(github.ref, 'refs/tags/')
+        needs: [tests-passed, security-analysis]
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
         permissions:
             contents: write
             id-token: write
+            attestations: write
 
         steps:
-            - uses: actions/checkout@v7
-            - name: Set up Python
-              uses: actions/setup-python@v7
+            - name: Harden the runner (Audit all outbound calls)
+              uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
               with:
-                  python-version: "3.10"
-            - name: Setup Just
-              uses: extractions/setup-just@v4
-            - name: Install uv and set the Python version
-              uses: astral-sh/setup-uv@v7
+                egress-policy: audit
+
+            - name: Download tested distributions
+              uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
               with:
-                  python-version: "3.10"
-            - name: Install the project
-              run: uv sync --locked --all-extras --dev
-            - name: Build and publish on PyPI
+                  name: distributions
+                  path: dist/
+            - name: Verify release checksums
+              working-directory: dist
+              run: sha256sum --check SHA256SUMS
+            - name: Attest release assets
+              uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+              with:
+                  subject-path: dist/*
+            - name: Stage Python distributions
               run: |
-                  uv build
-                  uv publish
-            - name: Create release
-              uses: ncipollo/release-action@v1
+                  mkdir pypi-dist
+                  cp dist/*.whl dist/*.tar.gz pypi-dist/
+            - name: Publish on PyPI
+              uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
               with:
-                  draft: true
-                  body: ${{ github.event.head_commit.message }}
-                  artifacts: dist/*.whl,dist/*.tar.gz
+                  packages-dir: pypi-dist/
+                  attestations: true
+            - name: Publish GitHub release
+              uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
+              with:
+                  draft: false
+                  bodyFile: dist/pwdlib-${{ github.ref_name }}-release-notes.md
+                  artifacts: dist/*
                   token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,17 +1,9 @@
 import collections.abc
-from typing import TYPE_CHECKING
+from typing import Self
 
 from . import exceptions
 from .hashers import HasherProtocol
 from .hashers.base import validate_str_or_bytes
-
-if TYPE_CHECKING:
-    import sys
-
-    if sys.version_info >= (3, 11):
-        from typing import Self
-    else:
-        from typing_extensions import Self
 
 
 class PasswordHash:
@@ -32,7 +24,7 @@ class PasswordHash:
         self.current_hasher = hashers[0]
 
     @classmethod
-    def recommended(cls) -> "Self":
+    def recommended(cls) -> Self:
         """
         Returns a PasswordHash instance with recommended hashers.
 

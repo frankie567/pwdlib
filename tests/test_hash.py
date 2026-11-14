@@ -92,12 +92,12 @@ def test_verify_and_update_unknown_hash(password_hash: PasswordHash) -> None:
 )
 def test_invalid_type(invalid_value: object, password_hash: PasswordHash) -> None:
     with pytest.raises(TypeError, match="password must be str or bytes"):
-        password_hash.hash(invalid_value)  # type: ignore[arg-type]
+        password_hash.hash(invalid_value)  # ty: ignore[invalid-argument-type]
     with pytest.raises(TypeError, match="password must be str or bytes"):
-        password_hash.verify(invalid_value, _ARGON2_HASH_STR)  # type: ignore[arg-type]
+        password_hash.verify(invalid_value, _ARGON2_HASH_STR)  # ty: ignore[invalid-argument-type]
     with pytest.raises(TypeError, match="hash must be str or bytes"):
-        password_hash.verify(_PASSWORD, invalid_value)  # type: ignore[arg-type]
+        password_hash.verify(_PASSWORD, invalid_value)  # ty: ignore[invalid-argument-type]
     with pytest.raises(TypeError, match="password must be str or bytes"):
-        password_hash.verify_and_update(invalid_value, _ARGON2_HASH_STR)  # type: ignore[arg-type]
+        password_hash.verify_and_update(invalid_value, _ARGON2_HASH_STR)  # ty: ignore[invalid-argument-type]
     with pytest.raises(TypeError, match="hash must be str or bytes"):
-        password_hash.verify_and_update(_PASSWORD, invalid_value)  # type: ignore[arg-type]
+        password_hash.verify_and_update(_PASSWORD, invalid_value)  # ty: ignore[invalid-argument-type]

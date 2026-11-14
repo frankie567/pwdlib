@@ -54,11 +54,11 @@ That's why I decided to start `pwdlib`, a password hash helper for the modern Py
 
 ### Setup environment
 
-We use [uv](https://docs.astral.sh/uv/) to manage the development environment and production build, and [just](https://github.com/casey/just) to manage command shortcuts. Ensure they are installed on your system.
+Install [uv](https://docs.astral.sh/uv/) and [just](https://just.systems/). Use Python 3.11 or newer for Zensical and pre-commit.
+
+Install the development dependencies and pre-commit hooks with `just install`.
 
 ### Run unit tests
-
-You can run all the tests with:
 
 ```bash
 just test
@@ -66,41 +66,46 @@ just test
 
 ### Format the code
 
-Execute the following command to apply linting and check typing:
+Run Ruff to format and lint the code, then check types with ty.
 
 ```bash
-hatch run lint
+just lint
 ```
 
-### Publish a new version
+Use `just lint-check` to run the same checks without editing files.
 
-You can bump the version, create a commit and associated tag with one command:
+### Publishing a release
 
-```bash
-hatch version patch
-```
+1. Commit the release notes under `Unreleased` in [CHANGELOG.md](CHANGELOG.md).
+   From a clean release branch with Git signing configured, run `just version patch`,
+   `just version minor`, or `just version major`. The recipe updates the version,
+   changelog, and lockfile, then opens your Git editor for the signed commit.
+2. Preview the release notes with `just release-notes <version>`, then push the
+   branch and merge the release PR into `main`.
+3. With the GitHub CLI authenticated, run `just release <PR number>`. This signs
+   and pushes a tag pointing to the merged PR commit. After the checks pass,
+   CI publishes the distributions to PyPI with attestations and publishes the
+   GitHub release with build provenance.
 
-```bash
-hatch version minor
-```
-
-```bash
-hatch version major
-```
-
-Your default Git text editor will open so you can add information about the release.
-
-When you push the tag on GitHub, the workflow will automatically publish it on PyPi and a GitHub release will be created as draft.
+The PyPI Trusted Publisher must match the `build.yml` workflow and the GitHub
+`release` environment.
 
 ## Serve the documentation
 
-You can serve the Mkdocs documentation with:
+The documentation uses Zensical. Start the local preview with the following command.
 
 ```bash
-hatch run docs-serve
+just docs-serve
 ```
 
-It'll automatically watch for changes in your code.
+Open http://localhost:8000. The preview reloads when documentation changes.
+Edit pages in `docs/` and configure the site in `zensical.toml`.
+
+Build the static site into `site/` with the following command.
+
+```bash
+just docs-build
+```
 
 ## License
 
