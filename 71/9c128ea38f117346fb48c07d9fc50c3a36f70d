@@ -1,0 +1,65 @@
+README.md
+  s_f4240ea57a3cf1::t_44c933091b7082 72
+  s_f4240ea57a3cf1::t_df80d9fb90980e 135
+  s_f4240ea57a3cf1::t_add21f7d53ef61 57,59,61,69,75,77,79-88,90-91,93,95,97-99,101-102,104,107
+.pre-commit-config.yaml
+  s_f4240ea57a3cf1::t_79f8b3693cf687 1-9,11-25,27-30
+  s_f4240ea57a3cf1::t_44c933091b7082 26
+  s_f4240ea57a3cf1::t_79136bbd2baede 10
+.gitignore
+  s_f4240ea57a3cf1::t_44c933091b7082 101
+tests/hashers/test_argon2.py
+  s_f4240ea57a3cf1::t_44c933091b7082 101,103,105,107,109
+pwdlib/_hash.py
+  s_f4240ea57a3cf1::t_be4f2c970e30f2 2,27
+.github/workflows/copilot-setup-steps.yml
+  s_f4240ea57a3cf1::t_79f8b3693cf687 14-16,22-27,29,31,33,35,37
+.github/workflows/scorecard.yml
+  s_f4240ea57a3cf1::t_79f8b3693cf687 1-49
+CHANGELOG.md
+  s_f4240ea57a3cf1::t_79f8b3693cf687 1-6,11-13,18-30
+  s_f4240ea57a3cf1::t_be4f2c970e30f2 7-10,14-17
+pyproject.toml
+  s_f4240ea57a3cf1::t_7a285fd30223c8 37,45,49-57
+  s_f4240ea57a3cf1::t_be4f2c970e30f2 19,22,61
+.github/workflows/documentation.yml
+  s_f4240ea57a3cf1::t_79f8b3693cf687 20-25,27,29,31,33,35,39,44-46,53-57,60
+.github/workflows/codeql.yml
+  s_f4240ea57a3cf1::t_79f8b3693cf687 1-41
+.github/workflows/dependency-review.yml
+  s_f4240ea57a3cf1::t_79f8b3693cf687 1-22
+justfile
+  s_f4240ea57a3cf1::t_1ea3026f96a1ae 10,15,18,21,30,46-48,52-54,59-60
+  s_f4240ea57a3cf1::t_79f8b3693cf687 4-5,8-9,13-14,24,27-29,33-39,50-51,61-102
+  s_f4240ea57a3cf1::t_e40f70d15eb00f 40-45,49,55-58
+zensical.toml
+  s_f4240ea57a3cf1::t_036a201ecdd9a7 19
+  s_f4240ea57a3cf1::t_79f8b3693cf687 1-18,20-22,24-26,30-36,38-44,46-58,60-62
+  s_f4240ea57a3cf1::t_be4f2c970e30f2 59
+  s_f4240ea57a3cf1::t_5bd8715dbaee03 23,27-29,37,45
+tests/test_hash.py
+  s_f4240ea57a3cf1::t_44c933091b7082 95,97,99,101,103
+tests/hashers/test_bcrypt.py
+  s_f4240ea57a3cf1::t_44c933091b7082 79,81,83,85,87
+.github/workflows/build.yml
+  s_f4240ea57a3cf1::t_133f79113602cd 43,54,66,75,78,85
+  s_f4240ea57a3cf1::t_79f8b3693cf687 3-10,13-37,41,46-47,49-53,56,58,60,62,64-65,68-74,76-77,79-84,86-92,94,99-117,121-122,126,129-130,132-135,137-146,148-156,158-160
+.github/dependabot.yml
+  s_f4240ea57a3cf1::t_44c933091b7082 3-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "719c128ea38f117346fb48c07d9fc50c3a36f70d",
+  "prompts": {},
+  "sessions": {
+    "s_f4240ea57a3cf1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1d946-ff05-7fb0-b990-86812c4f6e92",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "François Voron <me@fvoron.com>"
+    }
+  }
+}
