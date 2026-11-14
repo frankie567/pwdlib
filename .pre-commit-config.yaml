@@ -20,7 +20,7 @@ repos:
     name: Ruff format
     entry: uv run --locked ruff format --force-exclude
     language: system
-    types_or: [python, pyi]
+    types_or: [python, pyi, markdown]
   - id: ty
     name: ty
     entry: uv run --locked --all-extras ty check pwdlib/ tests/
