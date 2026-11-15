@@ -1,0 +1,29 @@
+CHANGELOG.md
+  s_f8260284e5776f::t_6782b1d64d19a7 7-8,41-42
+pwdlib/__init__.py
+  s_619ab90425f4b3::t_1d43a4611da98d 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9f70300d4edcfdf683cb093577b76a1ff1593156",
+  "prompts": {},
+  "sessions": {
+    "s_619ab90425f4b3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1df37-e227-7a92-bc35-845ec4ff162b",
+        "model": "unknown"
+      },
+      "human_author": "François Voron <me@fvoron.com>"
+    },
+    "s_f8260284e5776f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1df31-a19f-7a80-9e27-818a3ba7cb9e",
+        "model": "unknown"
+      },
+      "human_author": "François Voron <me@fvoron.com>"
+    }
+  }
+}
