@@ -1,0 +1,21 @@
+CHANGELOG.md
+  s_b9c8e780ad1963::t_83476019980d82 7-8,50-51
+pwdlib/__init__.py
+  s_b9c8e780ad1963::t_96bd4146721200 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "68da9cb9443248ae6d53f829347dd1c10e229b72",
+  "prompts": {},
+  "sessions": {
+    "s_b9c8e780ad1963": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1df44-670d-7813-94d4-9454d3cfc18c",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "François Voron <me@fvoron.com>"
+    }
+  }
+}
