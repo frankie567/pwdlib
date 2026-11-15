@@ -1,0 +1,38 @@
+pwdlib/hashers/bcrypt.py
+  s_f8260284e5776f::t_5a86649efbc7c9 11,50-55
+pwdlib/hashers/argon2.py
+  s_f8260284e5776f::t_42657ba2330809 76
+  s_f8260284e5776f::t_eeac25a26738df 81
+  s_f8260284e5776f::t_71a3d8517b5c74 11,82
+  s_f8260284e5776f::t_47ef7eb2b6ab44 77
+pwdlib/exceptions.py
+  s_f8260284e5776f::t_71a3d8517b5c74 53-59
+tests/test_hash.py
+  s_f8260284e5776f::t_36bd4903bd3cd7 114,117-118
+  s_f8260284e5776f::t_901051df593f3c 1-2,4-5,88,104,106-112
+  s_f8260284e5776f::t_ae72f1afca6121 89-102,105
+  s_f8260284e5776f::t_71a3d8517b5c74 103,113,115-116,119
+  s_f8260284e5776f::t_c396bedd59f6d1 120-121
+CHANGELOG.md
+  s_f8260284e5776f::t_5a86649efbc7c9 9-11
+  s_f8260284e5776f::t_71a3d8517b5c74 12-13
+  s_f8260284e5776f::t_42657ba2330809 7-8,14
+pwdlib/_hash.py
+  s_f8260284e5776f::t_d8063c96ce84d1 73,105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7a20231cd9e832fb389cb2e1ad813699effb9af6",
+  "prompts": {},
+  "sessions": {
+    "s_f8260284e5776f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1df31-a19f-7a80-9e27-818a3ba7cb9e",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "François Voron <me@fvoron.com>"
+    }
+  }
+}
