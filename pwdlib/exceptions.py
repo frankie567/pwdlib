@@ -50,3 +50,10 @@ class UnknownHashError(PwdlibError):
             "Make sure it's valid and that its corresponding hasher is enabled."
         )
         super().__init__(message)
+
+
+class HashVerificationError(PwdlibError):
+    """Raised when a hasher fails to verify a password."""
+
+    def __init__(self) -> None:
+        super().__init__("Password verification failed.")

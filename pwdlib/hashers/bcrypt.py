@@ -8,6 +8,7 @@ except ImportError as e:  # pragma: no cover
 
     raise HasherNotAvailable("bcrypt") from e
 
+from ..exceptions import HashVerificationError
 from .base import HasherProtocol, ensure_bytes, ensure_str, validate_str_or_bytes
 
 _IDENTIFY_REGEX = (
@@ -46,7 +47,12 @@ class BcryptHasher(HasherProtocol):
     def verify(self, password: str | bytes, hash: str | bytes) -> bool:
         validate_str_or_bytes(password, "password")
         validate_str_or_bytes(hash, "hash")
-        return bcrypt.checkpw(ensure_bytes(password), ensure_bytes(hash))
+        password_bytes = ensure_bytes(password)
+        hash_bytes = ensure_bytes(hash)
+        try:
+            return bcrypt.checkpw(password_bytes, hash_bytes)
+        except ValueError as e:
+            raise HashVerificationError() from e
 
     def check_needs_rehash(self, hash: str | bytes) -> bool:
         validate_str_or_bytes(hash, "hash")

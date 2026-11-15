@@ -1,4 +1,8 @@
+from unittest.mock import patch
+
 import pytest
+from argon2 import PasswordHasher
+from argon2.exceptions import InvalidHashError, VerificationError
 
 from pwdlib import PasswordHash, exceptions
 from pwdlib.hashers.argon2 import Argon2Hasher
@@ -79,6 +83,40 @@ def test_verify_and_update(
 def test_verify_and_update_unknown_hash(password_hash: PasswordHash) -> None:
     with pytest.raises(exceptions.UnknownHashError):
         password_hash.verify_and_update(_PASSWORD, "INVALID_HASH")
+
+
+@pytest.mark.parametrize("method", ["verify", "verify_and_update"])
+@pytest.mark.parametrize(
+    "hash,error",
+    [
+        pytest.param(
+            "$argon2id$v=19$m=65536,t=3,p=4$invalid$invalid",
+            VerificationError,
+            id="argon2",
+        ),
+        pytest.param(f"$2b$99${_BCRYPT_HASH_STR[7:]}", ValueError, id="bcrypt"),
+    ],
+)
+def test_verify_malformed_hash(
+    method: str, hash: str, error: type[Exception], password_hash: PasswordHash
+) -> None:
+    with pytest.raises(exceptions.HashVerificationError) as exc_info:
+        getattr(password_hash, method)(_PASSWORD, hash)
+    assert type(exc_info.value.__cause__) is error
+
+
+@pytest.mark.parametrize("method", ["verify", "verify_and_update"])
+@pytest.mark.parametrize("error", [VerificationError, InvalidHashError])
+def test_verify_argon2_backend_error(
+    method: str, error: type[Exception], password_hash: PasswordHash
+) -> None:
+    backend_error = error()
+    with (
+        patch.object(PasswordHasher, "verify", side_effect=backend_error),
+        pytest.raises(exceptions.HashVerificationError) as exc_info,
+    ):
+        getattr(password_hash, method)(_PASSWORD, _ARGON2_HASH_STR)
+    assert exc_info.value.__cause__ is backend_error
 
 
 @pytest.mark.parametrize(
