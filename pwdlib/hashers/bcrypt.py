@@ -8,7 +8,7 @@ except ImportError as e:  # pragma: no cover
 
     raise HasherNotAvailable("bcrypt") from e
 
-from ..exceptions import HashVerificationError
+from ..exceptions import HashGenerationError, HashVerificationError
 from .base import HasherProtocol, ensure_bytes, ensure_str, validate_str_or_bytes
 
 _IDENTIFY_REGEX = (
@@ -39,10 +39,21 @@ class BcryptHasher(HasherProtocol):
         return _match_regex_hash(hash) is not None
 
     def hash(self, password: str | bytes, *, salt: bytes | None = None) -> str:
+        """
+        Hashes a password using bcrypt.
+
+        Raises:
+            HashGenerationError: If the backend fails to generate the salt or hash.
+        """
         validate_str_or_bytes(password, "password")
-        if salt is None:
-            salt = bcrypt.gensalt(self.rounds, self.prefix)
-        return ensure_str(bcrypt.hashpw(ensure_bytes(password), salt))
+        password_bytes = ensure_bytes(password)
+        try:
+            if salt is None:
+                salt = bcrypt.gensalt(self.rounds, self.prefix)
+            hashed = bcrypt.hashpw(password_bytes, salt)
+        except ValueError as e:
+            raise HashGenerationError() from e
+        return ensure_str(hashed)
 
     def verify(self, password: str | bytes, hash: str | bytes) -> bool:
         validate_str_or_bytes(password, "password")

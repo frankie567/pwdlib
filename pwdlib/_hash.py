@@ -51,6 +51,9 @@ class PasswordHash:
         Returns:
             The hashed password.
 
+        Raises:
+            exceptions.HashGenerationError: If the hasher fails to generate the hash.
+
         Examples:
             >>> hash = password_hash.hash("herminetincture")
         """
@@ -103,6 +106,7 @@ class PasswordHash:
         Raises:
             exceptions.UnknownHashError: If the hash is not recognized by any of the hashers.
             exceptions.HashVerificationError: If verification fails due to a malformed hash or hasher error.
+            exceptions.HashGenerationError: If verification succeeds but generating the replacement hash fails.
 
         Examples:
             >>> valid, updated_hash = password_hash.verify_and_update("herminetincture", hash)
