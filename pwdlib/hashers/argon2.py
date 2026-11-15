@@ -8,7 +8,7 @@ except ImportError as e:  # pragma: no cover
 
     raise HasherNotAvailable("argon2") from e
 
-from ..exceptions import HashVerificationError
+from ..exceptions import HashGenerationError, HashVerificationError
 from .base import HasherProtocol, ensure_str, validate_str_or_bytes
 
 # Pattern for identifying and validating an Argon2 encoded hash, covering all currently
@@ -65,8 +65,17 @@ class Argon2Hasher(HasherProtocol):
         return variant in {"argon2id", "argon2i", "argon2d"}
 
     def hash(self, password: str | bytes, *, salt: bytes | None = None) -> str:
+        """
+        Hashes a password using Argon2.
+
+        Raises:
+            HashGenerationError: If the backend fails to generate the hash.
+        """
         validate_str_or_bytes(password, "password")
-        return self._hasher.hash(password, salt=salt)
+        try:
+            return self._hasher.hash(password, salt=salt)
+        except argon2.exceptions.HashingError as e:
+            raise HashGenerationError() from e
 
     def verify(self, password: str | bytes, hash: str | bytes) -> bool:
         validate_str_or_bytes(password, "password")

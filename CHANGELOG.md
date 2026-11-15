@@ -4,6 +4,13 @@ Add user-facing changes under Unreleased using [Keep a Changelog](https://keepac
 
 ## [Unreleased]
 
+### Fixed
+
+- Argon2 and bcrypt now raise `pwdlib.exceptions.HashGenerationError` when
+  their backend rejects hash generation, including replacement hashes in
+  `PasswordHash.verify_and_update()`. The original exception is preserved as
+  the cause.
+
 ## [0.4.1] - 2026-11-15
 
 ### Fixed

@@ -1,10 +1,12 @@
+from importlib.metadata import version
 from unittest.mock import patch
 
 import pytest
 from argon2 import PasswordHasher
-from argon2.exceptions import InvalidHashError, VerificationError
+from argon2.exceptions import HashingError, InvalidHashError, VerificationError
 
 from pwdlib import PasswordHash, exceptions
+from pwdlib.hashers import HasherProtocol
 from pwdlib.hashers.argon2 import Argon2Hasher
 from pwdlib.hashers.bcrypt import BcryptHasher
 
@@ -32,6 +34,47 @@ def test_hash(password_hash: PasswordHash) -> None:
     hash = password_hash.hash("herminetincture")
     assert isinstance(hash, str)
     assert password_hash.current_hasher.identify(hash)
+
+
+@pytest.mark.parametrize(
+    "hasher,salt,error",
+    [
+        pytest.param(Argon2Hasher(), b"x", HashingError, id="argon2-invalid-salt"),
+        pytest.param(BcryptHasher(), b"x", ValueError, id="bcrypt-invalid-salt"),
+        pytest.param(BcryptHasher(rounds=3), None, ValueError, id="bcrypt-gensalt"),
+    ],
+)
+def test_hash_generation_error(
+    hasher: HasherProtocol, salt: bytes | None, error: type[Exception]
+) -> None:
+    password_hash = PasswordHash((hasher,))
+    with pytest.raises(exceptions.HashGenerationError) as exc_info:
+        password_hash.hash(_PASSWORD, salt=salt)
+    assert type(exc_info.value.__cause__) is error
+
+
+@pytest.mark.skipif(
+    int(version("bcrypt").split(".", 1)[0]) < 5,
+    reason="bcrypt 5 introduced the rejection of passwords longer than 72 bytes",
+)
+def test_bcrypt_hash_generation_rejects_long_password() -> None:
+    argon2_hasher = Argon2Hasher()
+    password_hash = PasswordHash((BcryptHasher(rounds=4), argon2_hasher))
+    password = "é" * 36 + "x"
+    stored = argon2_hasher.hash(password)
+
+    with pytest.raises(exceptions.HashGenerationError) as exc_info:
+        password_hash.hash(password)
+    assert isinstance(exc_info.value.__cause__, ValueError)
+
+    with pytest.raises(exceptions.HashGenerationError) as exc_info:
+        password_hash.verify_and_update(password, stored)
+    assert isinstance(exc_info.value.__cause__, ValueError)
+
+
+def test_bcrypt_hash_leaves_encoding_error_unchanged() -> None:
+    with pytest.raises(UnicodeEncodeError):
+        _BCRYPT_HASHER.hash("\ud800")
 
 
 @pytest.mark.parametrize(

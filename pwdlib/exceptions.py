@@ -52,6 +52,13 @@ class UnknownHashError(PwdlibError):
         super().__init__(message)
 
 
+class HashGenerationError(PwdlibError):
+    """Raised when a hasher fails to generate a password hash."""
+
+    def __init__(self) -> None:
+        super().__init__("Password hash generation failed.")
+
+
 class HashVerificationError(PwdlibError):
     """Raised when a hasher fails to verify a password."""
 
