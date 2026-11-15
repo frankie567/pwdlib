@@ -70,6 +70,7 @@ class PasswordHash:
 
         Raises:
             exceptions.UnknownHashError: If the hash is not recognized by any of the hashers.
+            exceptions.HashVerificationError: If verification fails due to a malformed hash or hasher error.
 
         Examples:
             >>> password_hash.verify("herminetincture", hash)
@@ -101,6 +102,7 @@ class PasswordHash:
 
         Raises:
             exceptions.UnknownHashError: If the hash is not recognized by any of the hashers.
+            exceptions.HashVerificationError: If verification fails due to a malformed hash or hasher error.
 
         Examples:
             >>> valid, updated_hash = password_hash.verify_and_update("herminetincture", hash)

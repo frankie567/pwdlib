@@ -4,6 +4,14 @@ Add user-facing changes under Unreleased using [Keep a Changelog](https://keepac
 
 ## [Unreleased]
 
+### Fixed
+
+- Argon2 and bcrypt now raise `pwdlib.exceptions.HashVerificationError` when
+  their backend rejects verification, such as for a malformed hash. With bcrypt
+  5.0, this also covers passwords longer than 72 bytes. A password mismatch still
+  returns `False` from `PasswordHash.verify()` and `(False, None)` from
+  `PasswordHash.verify_and_update()`.
+
 ## [0.4.0] - 2026-11-14
 
 ### Added

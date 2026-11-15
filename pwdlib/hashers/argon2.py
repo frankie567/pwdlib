@@ -8,6 +8,7 @@ except ImportError as e:  # pragma: no cover
 
     raise HasherNotAvailable("argon2") from e
 
+from ..exceptions import HashVerificationError
 from .base import HasherProtocol, ensure_str, validate_str_or_bytes
 
 # Pattern for identifying and validating an Argon2 encoded hash, covering all currently
@@ -72,11 +73,13 @@ class Argon2Hasher(HasherProtocol):
         validate_str_or_bytes(hash, "hash")
         try:
             return self._hasher.verify(hash, password)
+        except argon2.exceptions.VerifyMismatchError:
+            return False
         except (
             argon2.exceptions.VerificationError,
             argon2.exceptions.InvalidHashError,
-        ):
-            return False
+        ) as e:
+            raise HashVerificationError() from e
 
     def check_needs_rehash(self, hash: str | bytes) -> bool:
         validate_str_or_bytes(hash, "hash")
