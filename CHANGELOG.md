@@ -4,6 +4,8 @@ Add user-facing changes under Unreleased using [Keep a Changelog](https://keepac
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-11-15
+
 ### Fixed
 
 - Argon2 and bcrypt now raise `pwdlib.exceptions.HashGenerationError` when
@@ -45,7 +47,8 @@ Add user-facing changes under Unreleased using [Keep a Changelog](https://keepac
 
 - Correct the dependency versions for Python 3.10 compatibility.
 
-[Unreleased]: https://github.com/frankie567/pwdlib/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/frankie567/pwdlib/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/frankie567/pwdlib/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/frankie567/pwdlib/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/frankie567/pwdlib/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/frankie567/pwdlib/releases/tag/v0.3.1
